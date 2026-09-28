@@ -26,11 +26,11 @@ const{useState,useRef}=React;
 const C={navy:"#1A2340",navy2:"#222B45",red:"#E03A2F",yellow:"#F5C518",blue:"#4AB8D8",green:"#5DBB63",white:"#FFFFFF",gray:"#2D3655",orange:"#F5832A"};
 
 // ── SOLO 3 COLEGIOS REALES ────────────────────────────────────────────────
-const COLEGIOS=["Colegio Wenlock School","Colegio Redland","Colegio Dunalastair"];
+const COLEGIOS=["Colegio Wenlock School","Colegio Redland School","Colegio Dunalastair","Colegio Bradford School"];
 
 const CATS=[{id:"uniforme",label:"Uniformes",emoji:"👕",color:C.yellow,light:"rgba(245,197,24,0.15)"},{id:"deportivo",label:"Deportivo",emoji:"🏃",color:C.blue,light:"rgba(74,184,216,0.15)"},{id:"libros",label:"Libros",emoji:"📚",color:C.blue,light:"rgba(74,184,216,0.15)"},{id:"utiles",label:"Útiles",emoji:"✏️",color:C.red,light:"rgba(224,58,47,0.15)"},{id:"disfraz",label:"Disfraces",emoji:"🎭",color:C.green,light:"rgba(93,187,99,0.15)"}];
 const ARTICULOS={uniforme:["Camisa blanca manga corta","Camisa blanca manga larga","Blusa blanca","Pantalón gris","Falda azul marino","Falda cuadriculada","Corbata / lazo","Suéter / jersey","Conjunto completo niño","Conjunto completo niña"],deportivo:["Short deportivo","Camiseta deportiva","Pants / buzo","Medias deportivas","Conjunto deportivo completo","Chaqueta deportiva"],libros:["Libro de Matemáticas","Libro de Lenguaje","Libro de Ciencias","Libro de Historia","Libro de Inglés","Set completo de libros","Diccionario"],utiles:["Mochila escolar","Lonchera","Estuche / cartuchera","Kit de geometría","Colores / crayolas","Marcadores","Calculadora","Set de útiles completo"],disfraz:["Disfraz de animal","Disfraz de superhéroe","Disfraz histórico","Disfraz de princesa/príncipe","Disfraz de profesión","Disfraz patrio","Disfraz completo con accesorios"]};
-const TALLAS=["Talla 4","Talla 6","Talla 8","Talla 10","Talla 12","Talla 14","XS","S","M","L","XL","No aplica"];
+const TALLAS=["Talla 4","Talla 6","Talla 8","Talla 10","Talla 12","Talla 14","Talla 16","XS","S","M","L","XL","No aplica"];
 const ESTADOS=[{id:"nuevo",label:"Nuevo sin uso",emoji:"✨",color:C.green},{id:"como_nuevo",label:"Usado — como nuevo",emoji:"⭐",color:C.blue},{id:"leve",label:"Usado — signos leves de uso",emoji:"👍",color:C.yellow},{id:"prolongado",label:"Usado — uso prolongado",emoji:"👌",color:C.orange}];
 const getEstado=id=>ESTADOS.find(e=>e.id===id)||ESTADOS[1];
 const COMM=0.20,WALLET_DAYS=7;
