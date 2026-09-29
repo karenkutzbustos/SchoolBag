@@ -25,7 +25,7 @@ const{useState,useRef}=React;
 const C={navy:"#1A2340",navy2:"#222B45",red:"#E03A2F",yellow:"#F5C518",blue:"#4AB8D8",green:"#5DBB63",white:"#FFFFFF",gray:"#2D3655",orange:"#F5832A"};
 
 const COLEGIOS=["Colegio Wenlock School","Colegio Bradford School","Colegio Redland School","Colegio Dunalastair"];
-const CLUBS=["Club Old Locks","Club Old Brads","Club Old Reds","Club Dunners","Club Deportivo Universidad Catolica","Club Sport Frances","Otro club"];
+const CLUBS=["Club Old Locks","Club Old Brads","Club Old Reds","Club Dunners","Club Deportivo Universidad Católica","Club Sport Frances","Otro club"];
 
 const CATS=[
   {id:"uniforme",  label:"Uniformes Escolares", emoji:"👕", color:C.yellow, light:"rgba(245,197,24,0.15)"},
@@ -40,11 +40,11 @@ const CATS=[
 const ARTICULOS={
   uniforme:["Camisa","Blusa","Pantalón","Falda","Jumper","Corbata","Sweater / Cardigan","Polar","Blazer","Accesorios"],
   deportivo:["Short deportivo","Camiseta deportiva","Buzo","Polera","Medias deportivas","Polerón","Chaqueta deportiva"],
-  club:["Camiseta del club","Short del club","Falda del club","Poleron del club","Medias del club","Accesorios","Equipamiento"],
+  club:["Camiseta del club","Short del club","Falda del club","Polerón del club","Medias del club","Accesorios","Equipamiento"],
   zapatos:["Zapatos de colegio","Zapatillas deportivas","Zapatillas de Rugby","Zapatillas de Hockey","Zapatillas de fútbol"],
-  libros:["Libro de Matemáticas","Libro de Lenguaje","Libro de Ciencias","Libro de Historia","Libro de Inglés","Libro de Lectura","Diccionario","Otro Libro"],
-  utiles:["Mochila escolar","Estuche","Kit de geometría","Colores / crayolas","Marcadores","Calculadora","Otro para especificar"],
-  disfraz:["Disfraz de animal","Disfraz de superhéroe","Disfraz histórico","Disfraz de princesa/príncipe","Disfraz de profesión","Disfraz patrio","Otro Disfraz","Accesorio"],
+  libros:["Libro de Matemáticas","Libro de Lenguaje","Libro de Ciencias","Libro de Historia","Libro de Inglés","Libro de Lectura","Diccionario","Otro libro"],
+  utiles:["Mochila escolar","Estuche","Kit de geometría","Colores / crayolas","Marcadores","Calculadora","Otro (especificar)"],
+  disfraz:["Disfraz de animal","Disfraz de superhéroe","Disfraz histórico","Disfraz de princesa/príncipe","Disfraz de profesión","Disfraz patrio","Otro disfraz","Accesorios"],
 };
 
 const TALLAS=["Talla 4","Talla 6","Talla 8","Talla 10","Talla 12","Talla 14","Talla 16","XS","S","M","L","XL","No aplica"];
@@ -107,7 +107,10 @@ function AuthModal({onClose,onLogin,onRegister,initTab="register"}){
     const ok=onRegister(form);
     if(!ok)setErr("Ese correo ya está registrado");
   };
-  const doForgot=()=>{if(!forgotEmail){setErr("Ingresa tu correo");return;}setForgotSent(true);setErr("");};
+  const doForgot=()=>{
+    if(!forgotEmail){setErr("Ingresa tu correo");return;}
+    setForgotSent(true);setErr("");
+  };
 
   return(
     <Overlay onClose={onClose} maxW={440}>
@@ -141,8 +144,8 @@ function AuthModal({onClose,onLogin,onRegister,initTab="register"}){
               <div style={{textAlign:"center",padding:"20px 0"}}>
                 <div style={{fontSize:48,marginBottom:12}}>📧</div>
                 <h3 style={{color:C.green,fontWeight:900,marginBottom:8}}>¡Correo enviado!</h3>
-                <p style={{color:"rgba(255,255,255,0.55)",fontSize:14,lineHeight:1.5}}>Revisa tu bandeja en <strong style={{color:"white"}}>{forgotEmail}</strong></p>
-                <button onClick={()=>{setForgot(false);setForgotSent(false);setTab("login");}} style={{...btnP(C.blue),marginTop:20,textAlign:"center"}}>Volver a ingresar</button>
+                <p style={{color:"rgba(255,255,255,0.55)",fontSize:14,lineHeight:1.6,marginBottom:12}}>Esta es una versión demo. Para recuperar tu contraseña escríbenos a <strong style={{color:C.yellow}}>hola@schoolbag.cl</strong> con tu correo registrado y te ayudamos.</p>
+                <button onClick={()=>{setForgot(false);setForgotSent(false);setTab("login");}} style={{...btnP(C.blue),marginTop:8,textAlign:"center"}}>Volver a ingresar</button>
               </div>
             )}
           </div>
@@ -276,12 +279,12 @@ function PhotoUploader({fotos,setFotos}){const ref=useRef();const add=e=>{const 
 
 // ── PUBLISH MODAL ──────────────────────────────────────────────────────────
 function PublishModal({currentUser,onClose,onPublish}){
-  const[form,setForm]=useState({categoria:"uniforme",articulo:"",descripcion:"",talla:TALLAS[0],estado:"como_nuevo",tipo:"Venta",precio:"",colegio:COLEGIOS[0],club:""});
+  const[form,setForm]=useState({categoria:"uniforme",articulo:"",descripcion:"",talla:TALLAS[0],estado:"como_nuevo",tipo:"Venta",precio:"",colegio:"",club:""});
   const[fotos,setFotos]=useState([]);
-  const f=(k,v)=>setForm(p=>({...p,[k]:v,...(k==="categoria"?{articulo:"",talla:k==="zapatos"?TALLAS_ZAPATO[0]:TALLAS[0]}:{})}));
+  const f=(k,v)=>setForm(p=>({...p,[k]:v,...(k==="categoria"?{articulo:""}:{})}));
   const cat=getCat(form.categoria);
   const tallasActuales=form.categoria==="zapatos"?TALLAS_ZAPATO:TALLAS;
-  const valid=form.articulo&&form.descripcion.trim()&&fotos.length>0&&(form.tipo==="Donación"||form.precio);
+  const valid=form.articulo&&form.descripcion.trim()&&fotos.length>0&&(form.tipo==="Donación"||form.precio)&&(form.colegio||form.club);
 
   return(
     <Overlay onClose={onClose}>
@@ -293,12 +296,23 @@ function PublishModal({currentUser,onClose,onPublish}){
         {/* Categoría */}
         <div><label style={lbl}>Categoría *</label><div style={{display:"flex",gap:7,flexWrap:"wrap",marginTop:6}}>{CATS.map(c=>(<button key={c.id} onClick={()=>f("categoria",c.id)} style={{padding:"6px 12px",border:`2px solid ${form.categoria===c.id?c.color:"rgba(255,255,255,0.12)"}`,background:form.categoria===c.id?`${c.color}22`:"transparent",borderRadius:50,cursor:"pointer",fontSize:11,fontWeight:form.categoria===c.id?800:400,color:form.categoria===c.id?c.color:"rgba(255,255,255,0.6)",fontFamily:"inherit"}}>{c.emoji} {c.label}</button>))}</div></div>
 
-        {/* Colegio o club según categoría */}
-        {form.categoria==="club"?(
-          <div><label style={lbl}>Club *</label><select value={form.club} onChange={e=>f("club",e.target.value)} style={inp}><option value="" style={{background:C.navy2}}>-- Selecciona el club --</option>{CLUBS.map(c=><option key={c} style={{background:C.navy2}}>{c}</option>)}</select></div>
-        ):(
-          <div><label style={lbl}>Colegio *</label><select value={form.colegio} onChange={e=>f("colegio",e.target.value)} style={inp}>{COLEGIOS.map(c=><option key={c} style={{background:C.navy2}}>{c}</option>)}</select></div>
-        )}
+        {/* Colegio y/o Club — siempre visibles, al menos uno requerido */}
+        <div style={{background:C.gray,borderRadius:16,padding:"14px 16px",display:"flex",flexDirection:"column",gap:10}}>
+          <div style={{fontSize:11,fontWeight:800,color:"rgba(255,255,255,0.5)",textTransform:"uppercase",letterSpacing:1}}>¿A qué colegio/club pertenece? (al menos uno) *</div>
+          <div><label style={{...lbl,marginBottom:4}}>Colegio</label>
+            <select value={form.colegio} onChange={e=>f("colegio",e.target.value)} style={inp}>
+              <option value="" style={{background:C.navy2}}>Sin colegio</option>
+              {COLEGIOS.map(c=><option key={c} style={{background:C.navy2}}>{c}</option>)}
+            </select>
+          </div>
+          <div><label style={{...lbl,marginBottom:4}}>Club deportivo</label>
+            <select value={form.club} onChange={e=>f("club",e.target.value)} style={inp}>
+              <option value="" style={{background:C.navy2}}>Sin club</option>
+              {CLUBS.map(c=><option key={c} style={{background:C.navy2}}>{c}</option>)}
+            </select>
+          </div>
+          {!form.colegio&&!form.club&&<div style={{fontSize:12,color:C.orange}}>⚠️ Selecciona al menos un colegio o club</div>}
+        </div>
 
         {/* Artículo */}
         <div><label style={lbl}>Artículo *</label><select value={form.articulo} onChange={e=>f("articulo",e.target.value)} style={{...inp,color:form.articulo?"white":"rgba(255,255,255,0.35)"}}><option value="" style={{background:C.navy2}}>-- Selecciona --</option>{(ARTICULOS[form.categoria]||[]).map(a=><option key={a} style={{background:C.navy2}}>{a}</option>)}</select></div>
@@ -631,8 +645,9 @@ function SchoolBag(){
             <ScorePill score={score}/>
           </div>
           {isOwn&&(
-            <div style={{display:"flex",gap:7}}>
+            <div style={{display:"flex",gap:7,flexWrap:"wrap",justifyContent:"flex-end"}}>
               <button onClick={()=>setShowEditProfile(true)} style={{background:C.gray,border:"1px solid rgba(255,255,255,0.12)",color:"white",borderRadius:50,padding:"8px 16px",cursor:"pointer",fontSize:12,fontWeight:700,fontFamily:"inherit"}}>✏️ Editar</button>
+              <button onClick={handleLogout} style={{background:"rgba(74,184,216,0.15)",border:`1px solid ${C.blue}44`,color:C.blue,borderRadius:50,padding:"8px 16px",cursor:"pointer",fontSize:12,fontWeight:700,fontFamily:"inherit"}}>Cerrar sesión</button>
               <button onClick={()=>setShowPub(true)} style={{...btnP(C.red),fontSize:12,padding:"8px 16px"}}>+ Publicar</button>
             </div>
           )}
