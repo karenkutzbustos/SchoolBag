@@ -24,29 +24,32 @@
 const{useState,useRef}=React;
 const C={navy:"#1A2340",navy2:"#222B45",red:"#E03A2F",yellow:"#F5C518",blue:"#4AB8D8",green:"#5DBB63",white:"#FFFFFF",gray:"#2D3655",orange:"#F5832A"};
 
-const COLEGIOS=["Colegio Wenlock School","Colegio Bradford School","Colegio Redland School","Colegio Dunalastair"];
-const CLUBS=["Club Manquehue","Club Sport Frances","Club Old Locks","Club Universidad Catolica","Otro club"];
+const COLEGIOS=["Colegio Wenlock School","Colegio Redland","Colegio Dunalastair"];
+const CLUBS=["Club Manquehue","Club Palestino","Club Árabe","Club de Golf Los Leones","Club Tenis Las Condes","Club Deportivo Universidad de Chile","Club Hípico","Club Providencia","Club Alemán","Club de Polo Los Pingüinos","Otro club"];
 
-// ── CATEGORÍAS ACTUALIZADAS ───────────────────────────────────────────────
 const CATS=[
-  {id:"uniforme",   label:"Uniformes Escolares", emoji:"👕", color:C.yellow, light:"rgba(245,197,24,0.15)"},
-  {id:"deportivo",  label:"Artículos Deportivos", emoji:"🏃", color:C.blue,   light:"rgba(74,184,216,0.15)"},
-  {id:"club",       label:"Uniforme Club",         emoji:"⚽", color:C.green,  light:"rgba(93,187,99,0.15)"},
-  {id:"libros",     label:"Libros",                emoji:"📚", color:C.blue,   light:"rgba(74,184,216,0.15)"},
-  {id:"utiles",     label:"Útiles",                emoji:"✏️", color:C.red,    light:"rgba(224,58,47,0.15)"},
-  {id:"disfraz",    label:"Disfraces",             emoji:"🎭", color:"#9B59B6", light:"rgba(155,89,182,0.15)"},
+  {id:"uniforme",  label:"Uniformes Escolares", emoji:"👕", color:C.yellow, light:"rgba(245,197,24,0.15)"},
+  {id:"deportivo", label:"Artículos Deportivos", emoji:"🏃", color:C.blue,   light:"rgba(74,184,216,0.15)"},
+  {id:"club",      label:"Uniforme Club",        emoji:"⚽", color:C.green,  light:"rgba(93,187,99,0.15)"},
+  {id:"zapatos",   label:"Zapatos",              emoji:"👟", color:C.orange, light:"rgba(245,131,42,0.15)"},
+  {id:"libros",    label:"Libros",               emoji:"📚", color:C.blue,   light:"rgba(74,184,216,0.15)"},
+  {id:"utiles",    label:"Útiles",               emoji:"✏️", color:C.red,    light:"rgba(224,58,47,0.15)"},
+  {id:"disfraz",   label:"Disfraces",            emoji:"🎭", color:"#9B59B6", light:"rgba(155,89,182,0.15)"},
 ];
 
 const ARTICULOS={
-  uniforme:["Camisa blanca manga corta","Camisa blanca manga larga","Blusa blanca","Pantalón gris","Falda azul marino","Falda cuadriculada","Corbata / lazo","Suéter / jersey","Conjunto completo niño","Conjunto completo niña"],
-  deportivo:["Short deportivo","Camiseta deportiva","Pants / buzo","Medias deportivas","Conjunto deportivo completo","Chaqueta deportiva","Zapatillas deportivas","Mochila deportiva"],
+  uniforme:["Camisa","Blusa","Pantalón","Falda","Jumper","Corbata","Sweater / Cardigan","Polar","Blazer"],
+  deportivo:["Short deportivo","Camiseta deportiva","Buzo","Polera","Medias deportivas","Polerón","Chaqueta deportiva"],
   club:["Camiseta del club","Short del club","Conjunto completo","Chaqueta del club","Medias del club","Uniforme de fútbol","Uniforme de tenis","Uniforme de natación","Uniforme de polo","Uniforme de golf","Equipamiento completo"],
+  zapatos:["Zapatos de colegio","Zapatillas deportivas","Zapatillas de colegio","Zapatos formales","Botines","Zapatillas de fútbol","Zapatillas de tenis","Zapatos de baile","Botas de lluvia"],
   libros:["Libro de Matemáticas","Libro de Lenguaje","Libro de Ciencias","Libro de Historia","Libro de Inglés","Set completo de libros","Diccionario"],
   utiles:["Mochila escolar","Lonchera","Estuche / cartuchera","Kit de geometría","Colores / crayolas","Marcadores","Calculadora","Set de útiles completo"],
   disfraz:["Disfraz de animal","Disfraz de superhéroe","Disfraz histórico","Disfraz de princesa/príncipe","Disfraz de profesión","Disfraz patrio","Disfraz completo con accesorios"],
 };
 
-const TALLAS=["Talla 4","Talla 6","Talla 8","Talla 10","Talla 12","Talla 14","XS","S","M","L","XL","No aplica"];
+const TALLAS=["Talla 4","Talla 6","Talla 8","Talla 10","Talla 12","Talla 14","Talla 16","XS","S","M","L","XL","No aplica"];
+const TALLAS_ZAPATO=["N°28","N°29","N°30","N°31","N°32","N°33","N°34","N°35","N°36","N°37","N°38","N°39","N°40","N°41","N°42","No aplica"];
+
 const ESTADOS=[
   {id:"nuevo",      label:"Nuevo sin uso",               emoji:"✨",color:C.green},
   {id:"como_nuevo", label:"Usado — como nuevo",          emoji:"⭐",color:C.blue},
@@ -54,24 +57,12 @@ const ESTADOS=[
   {id:"prolongado", label:"Usado — uso prolongado",      emoji:"👌",color:C.orange},
 ];
 
-// ── AVATARES CON PELO OSCURO ──────────────────────────────────────────────
 const AVATARES=[
-  {emoji:"👩",label:"Mujer"},
-  {emoji:"👨",label:"Hombre"},
-  {emoji:"👩‍🦱",label:"Mujer rizado"},
-  {emoji:"👨‍🦱",label:"Hombre rizado"},
-  {emoji:"👩‍🦰",label:"Mujer pelirroja"},
-  {emoji:"👩‍🦳",label:"Mujer cana"},
-  {emoji:"👩‍🦲",label:"Mujer rapada"},
-  {emoji:"🧑",label:"Neutro"},
-  {emoji:"👦",label:"Niño"},
-  {emoji:"👧",label:"Niña"},
-  {emoji:"🧒",label:"Niñe"},
-  {emoji:"👱‍♀️",label:"Mujer rubia"},
-  {emoji:"👱",label:"Hombre rubio"},
-  {emoji:"🧔",label:"Con barba"},
-  {emoji:"🧔‍♀️",label:"Mujer barba"},
-  {emoji:"👵",label:"Abuela"},
+  {emoji:"👩",label:"Mujer"},{emoji:"👨",label:"Hombre"},{emoji:"👩‍🦱",label:"Mujer rizado"},
+  {emoji:"👨‍🦱",label:"Hombre rizado"},{emoji:"👩‍🦰",label:"Mujer pelirroja"},{emoji:"👩‍🦳",label:"Mujer cana"},
+  {emoji:"👩‍🦲",label:"Mujer rapada"},{emoji:"🧑",label:"Neutro"},{emoji:"👦",label:"Niño"},
+  {emoji:"👧",label:"Niña"},{emoji:"🧒",label:"Niñe"},{emoji:"👱‍♀️",label:"Mujer rubia"},
+  {emoji:"👱",label:"Hombre rubio"},{emoji:"🧔",label:"Con barba"},{emoji:"👵",label:"Abuela"},
 ];
 
 const getEstado=id=>ESTADOS.find(e=>e.id===id)||ESTADOS[1];
@@ -81,10 +72,10 @@ const fmt=p=>p===0?"Donación 🎁":`$${p.toLocaleString("es-CL")}`;
 const getCat=id=>CATS.find(c=>c.id===id)||CATS[0];
 const getUser=(id,users)=>users.find(u=>u.id===id);
 const sellerScore=(uid,reviews)=>{const r=reviews.filter(r=>r.vendedorId===uid);if(!r.length)return null;return r.reduce((s,x)=>s+x.stars,0)/r.length;};
-const scoreBadge=s=>{if(!s)return{label:"Sin calificaciones",color:C.gray};if(s>=4.5)return{label:"⭐ Vendedor Destacado",color:C.green};if(s>=3.5)return{label:"👍 Buen vendedor",color:C.blue};if(s>=2.5)return{label:"⚠️ En observación",color:C.orange};if(s>=2)return{label:"⚠️ Advertencia",color:C.orange};return{label:"🚫 Suspendido",color:C.red};};
+const scoreBadge=s=>{if(!s)return{label:"Sin calificaciones",color:C.gray};if(s>=4.5)return{label:"⭐ Destacado",color:C.green};if(s>=3.5)return{label:"👍 Buen vendedor",color:C.blue};if(s>=2.5)return{label:"⚠️ En observación",color:C.orange};if(s>=2)return{label:"⚠️ Advertencia",color:C.orange};return{label:"🚫 Suspendido",color:C.red};};
 
 const SEED_USERS=[
-  {id:"admin",nombre:"Admin SchoolBag",email:"admin@schoolbag.cl",password:"admin123",colegio:"-",club:"",avatar:"🛡️",joinDate:"2025",walletBalance:0,walletPending:[],role:"admin",suspended:false}
+  {id:"admin",nombre:"Admin SchoolBag",email:"admin@schoolbag.cl",password:"admin123",avatar:"🛡️",joinDate:"2025",walletBalance:0,walletPending:[],role:"admin",suspended:false}
 ];
 
 const inp={width:"100%",padding:"12px 16px",borderRadius:14,border:"1.5px solid rgba(255,255,255,0.12)",fontSize:14,boxSizing:"border-box",outline:"none",background:"rgba(255,255,255,0.08)",color:"white",fontFamily:"inherit"};
@@ -98,89 +89,10 @@ function Stars({value,onChange,size=22}){const[hover,setHover]=useState(0);retur
 function ScorePill({score}){if(!score)return <span style={{fontSize:12,color:"rgba(255,255,255,0.35)"}}>Sin calificaciones</span>;const b=scoreBadge(score);return <span style={{background:`${b.color}22`,color:b.color,fontSize:12,fontWeight:800,padding:"4px 12px",borderRadius:50,border:`1px solid ${b.color}44`}}>{b.label} ({score.toFixed(1)})</span>;}
 function EstadoBadge({estadoId}){const e=getEstado(estadoId);return <span style={{background:`${e.color}22`,color:e.color,fontSize:11,fontWeight:800,padding:"3px 11px",borderRadius:50,border:`1px solid ${e.color}33`}}>{e.emoji} {e.label}</span>;}
 
-// ── EDIT PROFILE MODAL ────────────────────────────────────────────────────
-function EditProfileModal({user,onClose,onSave}){
-  const[form,setForm]=useState({nombre:user.nombre,avatar:user.avatar,colegio:user.colegio,club:user.club||"",password:"",passwordNew:"",passwordConfirm:""});
-  const[tab,setTab]=useState("perfil");
-  const f=(k,v)=>setForm(p=>({...p,[k]:v}));
-  const[err,setErr]=useState("");
-
-  const save=()=>{
-    if(!form.nombre.trim()){setErr("El nombre no puede estar vacío");return;}
-    if(tab==="password"||form.passwordNew){
-      if(!form.password){setErr("Ingresa tu contraseña actual");return;}
-      if(form.password!==user.password){setErr("Contraseña actual incorrecta");return;}
-      if(form.passwordNew.length<6){setErr("La nueva contraseña debe tener al menos 6 caracteres");return;}
-      if(form.passwordNew!==form.passwordConfirm){setErr("Las contraseñas no coinciden");return;}
-    }
-    onSave({...user,nombre:form.nombre,avatar:form.avatar,colegio:form.colegio,club:form.club,...(form.passwordNew?{password:form.passwordNew}:{})});
-    onClose();
-  };
-
-  return(
-    <Overlay onClose={onClose} maxW={480}>
-      <div style={{padding:"24px 28px 0",borderBottom:"1px solid rgba(255,255,255,0.08)"}}>
-        <h2 style={{color:"white",fontWeight:900,fontSize:20,marginBottom:16}}>✏️ Editar perfil</h2>
-        <div style={{display:"flex",gap:8,marginBottom:0}}>
-          {[["perfil","👤 Perfil"],["password","🔒 Contraseña"]].map(([t,l])=>(
-            <button key={t} onClick={()=>setTab(t)} style={{padding:"9px 18px",border:"none",borderRadius:"14px 14px 0 0",background:tab===t?C.navy:"transparent",color:tab===t?"white":"rgba(255,255,255,0.45)",fontWeight:tab===t?800:600,cursor:"pointer",fontSize:13,fontFamily:"inherit"}}>{l}</button>
-          ))}
-        </div>
-      </div>
-
-      <div style={{padding:"22px 28px 28px",display:"flex",flexDirection:"column",gap:16}}>
-        {tab==="perfil"&&(<>
-          {/* Avatar */}
-          <div>
-            <label style={lbl}>Elige tu avatar</label>
-            <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:6}}>
-              {AVATARES.map(a=>(
-                <button key={a.emoji} onClick={()=>f("avatar",a.emoji)} title={a.label} style={{fontSize:22,background:form.avatar===a.emoji?"rgba(245,197,24,0.2)":"rgba(255,255,255,0.06)",border:`2px solid ${form.avatar===a.emoji?C.yellow:"transparent"}`,borderRadius:12,width:44,height:44,cursor:"pointer",transition:"all .15s"}}>
-                  {a.emoji}
-                </button>
-              ))}
-            </div>
-          </div>
-          {/* Nombre */}
-          <div><label style={lbl}>Nombre completo</label><input value={form.nombre} onChange={e=>f("nombre",e.target.value)} style={inp}/></div>
-          {/* Colegio */}
-          <div>
-            <label style={lbl}>Colegio</label>
-            <select value={form.colegio} onChange={e=>f("colegio",e.target.value)} style={inp}>
-              {COLEGIOS.map(c=><option key={c} style={{background:C.navy2}}>{c}</option>)}
-            </select>
-          </div>
-          {/* Club */}
-          <div>
-            <label style={lbl}>Club deportivo (opcional)</label>
-            <select value={form.club} onChange={e=>f("club",e.target.value)} style={inp}>
-              <option value="" style={{background:C.navy2}}>Sin club</option>
-              {CLUBS.map(c=><option key={c} style={{background:C.navy2}}>{c}</option>)}
-            </select>
-          </div>
-        </>)}
-
-        {tab==="password"&&(<>
-          <div><label style={lbl}>Contraseña actual</label><input type="password" value={form.password} onChange={e=>f("password",e.target.value)} placeholder="••••••" style={inp}/></div>
-          <div><label style={lbl}>Nueva contraseña</label><input type="password" value={form.passwordNew} onChange={e=>f("passwordNew",e.target.value)} placeholder="Mínimo 6 caracteres" style={inp}/></div>
-          <div><label style={lbl}>Confirmar nueva contraseña</label><input type="password" value={form.passwordConfirm} onChange={e=>f("passwordConfirm",e.target.value)} placeholder="Repite la nueva contraseña" style={inp}/></div>
-        </>)}
-
-        {err&&<div style={{background:"rgba(224,58,47,0.15)",border:`1px solid ${C.red}44`,borderRadius:12,padding:"10px 14px",fontSize:13,color:C.red}}>{err}</div>}
-
-        <div style={{display:"flex",gap:10}}>
-          <button onClick={onClose} style={{padding:"12px 20px",background:C.gray,border:"none",borderRadius:50,cursor:"pointer",fontSize:14,color:"rgba(255,255,255,0.6)",fontFamily:"inherit"}}>Cancelar</button>
-          <button onClick={save} style={{...btnP(C.red),flex:1,textAlign:"center"}}>Guardar cambios</button>
-        </div>
-      </div>
-    </Overlay>
-  );
-}
-
-// ── AUTH MODAL ────────────────────────────────────────────────────────────
+// ── AUTH MODAL ─────────────────────────────────────────────────────────────
 function AuthModal({onClose,onLogin,onRegister,initTab="register"}){
   const[tab,setTab]=useState(initTab);
-  const[form,setForm]=useState({nombre:"",email:"",password:"",colegio:COLEGIOS[0],club:"",avatar:"👩"});
+  const[form,setForm]=useState({nombre:"",email:"",password:"",avatar:"👩"});
   const[forgot,setForgot]=useState(false);
   const[forgotEmail,setForgotEmail]=useState("");
   const[forgotSent,setForgotSent]=useState(false);
@@ -188,44 +100,48 @@ function AuthModal({onClose,onLogin,onRegister,initTab="register"}){
   const f=(k,v)=>setForm(p=>({...p,[k]:v}));
 
   const doLogin=()=>{setErr("");const ok=onLogin(form.email,form.password);if(!ok)setErr("Correo o contraseña incorrectos");};
-  const doRegister=()=>{setErr("");const ok=onRegister(form);if(!ok)setErr("Ese correo ya está registrado");};
+  const doRegister=()=>{
+    setErr("");
+    if(!form.nombre||!form.email||!form.password){setErr("Completa todos los campos");return;}
+    if(form.password.length<6){setErr("La contraseña debe tener al menos 6 caracteres");return;}
+    const ok=onRegister(form);
+    if(!ok)setErr("Ese correo ya está registrado");
+  };
   const doForgot=()=>{if(!forgotEmail){setErr("Ingresa tu correo");return;}setForgotSent(true);setErr("");};
 
   return(
     <Overlay onClose={onClose} maxW={440}>
-      <div style={{padding:"32px 28px 24px",textAlign:"center",borderBottom:"1px solid rgba(255,255,255,0.08)"}}>
-        <div style={{fontSize:50,marginBottom:6}}>🎒</div>
-        <h1 style={{margin:"0 0 4px",fontSize:26,fontWeight:900,color:"white"}}>SchoolBag</h1>
-        <p style={{color:"rgba(255,255,255,0.45)",fontSize:13,margin:0}}>Conectando familias escolares en comunidad</p>
+      <div style={{padding:"28px 28px 20px",textAlign:"center",borderBottom:"1px solid rgba(255,255,255,0.08)"}}>
+        <div style={{fontSize:48,marginBottom:4}}>🎒</div>
+        <h1 style={{margin:"0 0 3px",fontSize:24,fontWeight:900,color:"white"}}>SchoolBag</h1>
+        <p style={{color:"rgba(255,255,255,0.4)",fontSize:12,margin:0}}>Conectando familias escolares</p>
       </div>
-
-      <div style={{padding:"22px 28px 28px"}}>
-        {/* Tabs */}
+      <div style={{padding:"20px 28px 28px"}}>
         {!forgot&&(
-          <div style={{display:"flex",background:C.gray,borderRadius:50,padding:4,marginBottom:22}}>
+          <div style={{display:"flex",background:C.gray,borderRadius:50,padding:4,marginBottom:20}}>
             {[["login","Ingresar"],["register","Registrarme"]].map(([t,l])=>(
-              <button key={t} onClick={()=>{setTab(t);setErr("");}} style={{flex:1,padding:"10px",border:"none",borderRadius:50,background:tab===t?C.red:"transparent",fontWeight:tab===t?800:400,color:"white",cursor:"pointer",fontSize:14,fontFamily:"inherit"}}>{l}</button>
+              <button key={t} onClick={()=>{setTab(t);setErr("");}} style={{flex:1,padding:"9px",border:"none",borderRadius:50,background:tab===t?C.red:"transparent",fontWeight:tab===t?800:400,color:"white",cursor:"pointer",fontSize:13,fontFamily:"inherit"}}>{l}</button>
             ))}
           </div>
         )}
 
-        {/* FORGOT PASSWORD */}
+        {/* FORGOT */}
         {forgot&&(
           <div style={{display:"flex",flexDirection:"column",gap:14}}>
-            <button onClick={()=>{setForgot(false);setForgotSent(false);setErr("");}} style={{background:"none",border:"none",color:"rgba(255,255,255,0.5)",cursor:"pointer",fontSize:13,textAlign:"left",fontFamily:"inherit"}}>← Volver</button>
+            <button onClick={()=>{setForgot(false);setForgotSent(false);setErr("");}} style={{background:"none",border:"none",color:C.blue,cursor:"pointer",fontSize:13,textAlign:"left",fontFamily:"inherit"}}>← Volver</button>
             <h3 style={{color:"white",fontWeight:800,fontSize:17,margin:0}}>🔒 Recuperar contraseña</h3>
             {!forgotSent?(
               <>
                 <p style={{color:"rgba(255,255,255,0.5)",fontSize:13,margin:0}}>Te enviaremos un link para restablecer tu contraseña.</p>
                 <div><label style={lbl}>Tu correo registrado</label><input value={forgotEmail} onChange={e=>setForgotEmail(e.target.value)} placeholder="tucorreo@mail.com" style={inp}/></div>
-                {err&&<div style={{background:"rgba(224,58,47,0.15)",border:`1px solid ${C.red}44`,borderRadius:12,padding:"10px 14px",fontSize:13,color:C.red}}>{err}</div>}
+                {err&&<div style={{background:"rgba(224,58,47,0.15)",borderRadius:12,padding:"10px 14px",fontSize:13,color:C.red}}>{err}</div>}
                 <button onClick={doForgot} style={{...btnP(C.red),width:"100%",textAlign:"center"}}>Enviar link de recuperación</button>
               </>
             ):(
               <div style={{textAlign:"center",padding:"20px 0"}}>
                 <div style={{fontSize:48,marginBottom:12}}>📧</div>
                 <h3 style={{color:C.green,fontWeight:900,marginBottom:8}}>¡Correo enviado!</h3>
-                <p style={{color:"rgba(255,255,255,0.55)",fontSize:14,lineHeight:1.5}}>Revisa tu bandeja de entrada en <strong style={{color:"white"}}>{forgotEmail}</strong> y sigue las instrucciones para restablecer tu contraseña.</p>
+                <p style={{color:"rgba(255,255,255,0.55)",fontSize:14,lineHeight:1.5}}>Revisa tu bandeja en <strong style={{color:"white"}}>{forgotEmail}</strong></p>
                 <button onClick={()=>{setForgot(false);setForgotSent(false);setTab("login");}} style={{...btnP(C.blue),marginTop:20,textAlign:"center"}}>Volver a ingresar</button>
               </div>
             )}
@@ -236,10 +152,10 @@ function AuthModal({onClose,onLogin,onRegister,initTab="register"}){
         {!forgot&&tab==="login"&&(
           <div style={{display:"flex",flexDirection:"column",gap:14}}>
             <div><label style={lbl}>Correo</label><input value={form.email} onChange={e=>f("email",e.target.value)} placeholder="tucorreo@mail.com" style={inp}/></div>
-            <div><label style={lbl}>Contraseña</label><input type="password" value={form.password} onChange={e=>f("password",e.target.value)} placeholder="••••••" style={inp}/></div>
-            {err&&<div style={{background:"rgba(224,58,47,0.15)",border:`1px solid ${C.red}44`,borderRadius:12,padding:"10px 14px",fontSize:13,color:C.red}}>{err}</div>}
+            <div><label style={lbl}>Contraseña</label><input type="password" value={form.password} onChange={e=>f("password",e.target.value)} placeholder="••••••" style={inp} onKeyDown={e=>e.key==="Enter"&&doLogin()}/></div>
+            {err&&<div style={{background:"rgba(224,58,47,0.15)",borderRadius:12,padding:"10px 14px",fontSize:13,color:C.red}}>{err}</div>}
             <button onClick={doLogin} style={{...btnP(C.red),width:"100%",textAlign:"center"}}>Ingresar →</button>
-            <button onClick={()=>{setForgot(true);setErr("");}} style={{background:"none",border:"none",color:C.blue,cursor:"pointer",fontSize:13,textDecoration:"underline",fontFamily:"inherit"}}>¿Olvidaste tu contraseña?</button>
+            <button onClick={()=>{setForgot(true);setErr("");}} style={{background:"none",border:"none",color:C.blue,cursor:"pointer",fontSize:13,textDecoration:"underline",fontFamily:"inherit",textAlign:"center"}}>¿Olvidaste tu contraseña?</button>
           </div>
         )}
 
@@ -249,19 +165,13 @@ function AuthModal({onClose,onLogin,onRegister,initTab="register"}){
             <div>
               <label style={lbl}>Elige tu avatar</label>
               <div style={{display:"flex",gap:6,flexWrap:"wrap",marginTop:6}}>
-                {AVATARES.map(a=>(
-                  <button key={a.emoji} onClick={()=>f("avatar",a.emoji)} title={a.label} style={{fontSize:20,background:form.avatar===a.emoji?"rgba(245,197,24,0.2)":"rgba(255,255,255,0.06)",border:`2px solid ${form.avatar===a.emoji?C.yellow:"transparent"}`,borderRadius:10,width:40,height:40,cursor:"pointer"}}>
-                    {a.emoji}
-                  </button>
-                ))}
+                {AVATARES.map(a=>(<button key={a.emoji} onClick={()=>f("avatar",a.emoji)} title={a.label} style={{fontSize:20,background:form.avatar===a.emoji?"rgba(245,197,24,0.2)":"rgba(255,255,255,0.06)",border:`2px solid ${form.avatar===a.emoji?C.yellow:"transparent"}`,borderRadius:10,width:40,height:40,cursor:"pointer"}}>{a.emoji}</button>))}
               </div>
             </div>
             <div><label style={lbl}>Nombre completo</label><input value={form.nombre} onChange={e=>f("nombre",e.target.value)} placeholder="Tu nombre" style={inp}/></div>
             <div><label style={lbl}>Correo</label><input value={form.email} onChange={e=>f("email",e.target.value)} placeholder="tucorreo@mail.com" style={inp}/></div>
             <div><label style={lbl}>Contraseña</label><input type="password" value={form.password} onChange={e=>f("password",e.target.value)} placeholder="Mínimo 6 caracteres" style={inp}/></div>
-            <div><label style={lbl}>Colegio</label><select value={form.colegio} onChange={e=>f("colegio",e.target.value)} style={inp}>{COLEGIOS.map(c=><option key={c} style={{background:C.navy2}}>{c}</option>)}</select></div>
-            <div><label style={lbl}>Club deportivo (opcional)</label><select value={form.club} onChange={e=>f("club",e.target.value)} style={inp}><option value="" style={{background:C.navy2}}>Sin club</option>{CLUBS.map(c=><option key={c} style={{background:C.navy2}}>{c}</option>)}</select></div>
-            {err&&<div style={{background:"rgba(224,58,47,0.15)",border:`1px solid ${C.red}44`,borderRadius:12,padding:"10px 14px",fontSize:13,color:C.red}}>{err}</div>}
+            {err&&<div style={{background:"rgba(224,58,47,0.15)",borderRadius:12,padding:"10px 14px",fontSize:13,color:C.red}}>{err}</div>}
             <button onClick={doRegister} style={{...btnP(C.red),width:"100%",textAlign:"center"}}>Crear mi cuenta →</button>
           </div>
         )}
@@ -270,32 +180,140 @@ function AuthModal({onClose,onLogin,onRegister,initTab="register"}){
   );
 }
 
+// ── EDIT PROFILE MODAL ─────────────────────────────────────────────────────
+function EditProfileModal({user,onClose,onSave,onLogout,onDelete}){
+  const[tab,setTab]=useState("perfil");
+  const[form,setForm]=useState({nombre:user.nombre,avatar:user.avatar,password:"",passwordNew:"",passwordConfirm:""});
+  const[confirmDelete,setConfirmDelete]=useState(false);
+  const[err,setErr]=useState("");
+  const f=(k,v)=>setForm(p=>({...p,[k]:v}));
+
+  const save=()=>{
+    setErr("");
+    if(!form.nombre.trim()){setErr("El nombre no puede estar vacío");return;}
+    if(form.passwordNew){
+      if(!form.password){setErr("Ingresa tu contraseña actual");return;}
+      if(form.password!==user.password){setErr("Contraseña actual incorrecta");return;}
+      if(form.passwordNew.length<6){setErr("La nueva contraseña debe tener al menos 6 caracteres");return;}
+      if(form.passwordNew!==form.passwordConfirm){setErr("Las contraseñas no coinciden");return;}
+    }
+    onSave({...user,nombre:form.nombre,avatar:form.avatar,...(form.passwordNew?{password:form.passwordNew}:{})});
+    onClose();
+  };
+
+  return(
+    <Overlay onClose={onClose} maxW={460}>
+      <div style={{padding:"22px 28px 0",borderBottom:"1px solid rgba(255,255,255,0.08)"}}>
+        <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:16}}>
+          <Ava user={{...user,avatar:form.avatar}} size={52}/>
+          <div>
+            <div style={{color:"white",fontWeight:900,fontSize:18}}>{form.nombre||user.nombre}</div>
+            <div style={{color:"rgba(255,255,255,0.4)",fontSize:12}}>{user.email}</div>
+          </div>
+        </div>
+        <div style={{display:"flex",gap:4}}>
+          {[["perfil","👤 Perfil"],["password","🔒 Contraseña"],["cuenta","⚙️ Cuenta"]].map(([t,l])=>(
+            <button key={t} onClick={()=>{setTab(t);setErr("");}} style={{padding:"8px 14px",border:"none",borderRadius:"12px 12px 0 0",background:tab===t?C.navy:"transparent",color:tab===t?"white":"rgba(255,255,255,0.4)",fontWeight:tab===t?800:600,cursor:"pointer",fontSize:12,fontFamily:"inherit"}}>{l}</button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{padding:"20px 28px 28px",display:"flex",flexDirection:"column",gap:14}}>
+        {/* PERFIL */}
+        {tab==="perfil"&&(<>
+          <div>
+            <label style={lbl}>Avatar</label>
+            <div style={{display:"flex",gap:6,flexWrap:"wrap",marginTop:6}}>
+              {AVATARES.map(a=>(<button key={a.emoji} onClick={()=>f("avatar",a.emoji)} title={a.label} style={{fontSize:20,background:form.avatar===a.emoji?"rgba(245,197,24,0.2)":"rgba(255,255,255,0.06)",border:`2px solid ${form.avatar===a.emoji?C.yellow:"transparent"}`,borderRadius:10,width:40,height:40,cursor:"pointer"}}>{a.emoji}</button>))}
+            </div>
+          </div>
+          <div><label style={lbl}>Nombre completo</label><input value={form.nombre} onChange={e=>f("nombre",e.target.value)} style={inp}/></div>
+          {err&&<div style={{background:"rgba(224,58,47,0.15)",borderRadius:12,padding:"10px 14px",fontSize:13,color:C.red}}>{err}</div>}
+          <button onClick={save} style={{...btnP(C.red),width:"100%",textAlign:"center"}}>Guardar cambios</button>
+        </>)}
+
+        {/* CONTRASEÑA */}
+        {tab==="password"&&(<>
+          <div><label style={lbl}>Contraseña actual</label><input type="password" value={form.password} onChange={e=>f("password",e.target.value)} placeholder="••••••" style={inp}/></div>
+          <div><label style={lbl}>Nueva contraseña</label><input type="password" value={form.passwordNew} onChange={e=>f("passwordNew",e.target.value)} placeholder="Mínimo 6 caracteres" style={inp}/></div>
+          <div><label style={lbl}>Confirmar nueva contraseña</label><input type="password" value={form.passwordConfirm} onChange={e=>f("passwordConfirm",e.target.value)} placeholder="Repite la contraseña" style={inp}/></div>
+          {err&&<div style={{background:"rgba(224,58,47,0.15)",borderRadius:12,padding:"10px 14px",fontSize:13,color:C.red}}>{err}</div>}
+          <button onClick={save} style={{...btnP(C.red),width:"100%",textAlign:"center"}}>Cambiar contraseña</button>
+        </>)}
+
+        {/* CUENTA */}
+        {tab==="cuenta"&&(<>
+          {/* Cerrar sesión */}
+          <div style={{background:C.gray,borderRadius:16,padding:"16px 18px"}}>
+            <div style={{color:"white",fontWeight:800,fontSize:14,marginBottom:4}}>Cerrar sesión</div>
+            <div style={{color:"rgba(255,255,255,0.45)",fontSize:12,marginBottom:12}}>Saldrás de tu cuenta en este dispositivo.</div>
+            <button onClick={onLogout} style={{background:C.blue,color:"white",border:"none",borderRadius:50,padding:"10px 22px",fontWeight:800,cursor:"pointer",fontSize:13,fontFamily:"inherit"}}>Cerrar sesión</button>
+          </div>
+          {/* Eliminar cuenta */}
+          <div style={{background:"rgba(224,58,47,0.1)",border:`1px solid ${C.red}33`,borderRadius:16,padding:"16px 18px"}}>
+            <div style={{color:C.red,fontWeight:800,fontSize:14,marginBottom:4}}>Eliminar cuenta</div>
+            <div style={{color:"rgba(255,255,255,0.45)",fontSize:12,marginBottom:12}}>Esta acción es permanente y no se puede deshacer. Se eliminarán todos tus datos.</div>
+            {!confirmDelete?(
+              <button onClick={()=>setConfirmDelete(true)} style={{background:"rgba(224,58,47,0.2)",color:C.red,border:`1.5px solid ${C.red}`,borderRadius:50,padding:"10px 22px",fontWeight:800,cursor:"pointer",fontSize:13,fontFamily:"inherit"}}>Eliminar mi cuenta</button>
+            ):(
+              <div>
+                <div style={{color:C.yellow,fontSize:13,fontWeight:700,marginBottom:10}}>⚠️ ¿Estás segura? Esta acción no se puede deshacer.</div>
+                <div style={{display:"flex",gap:8}}>
+                  <button onClick={()=>setConfirmDelete(false)} style={{padding:"9px 18px",background:C.gray,border:"none",borderRadius:50,cursor:"pointer",fontSize:13,color:"rgba(255,255,255,0.6)",fontFamily:"inherit"}}>Cancelar</button>
+                  <button onClick={onDelete} style={{...btnP(C.red),padding:"9px 20px",fontSize:13}}>Sí, eliminar</button>
+                </div>
+              </div>
+            )}
+          </div>
+        </>)}
+      </div>
+    </Overlay>
+  );
+}
+
+// ── PHOTO UPLOADER ─────────────────────────────────────────────────────────
 function PhotoUploader({fotos,setFotos}){const ref=useRef();const add=e=>{const files=[...e.target.files];if(fotos.length+files.length>2){alert("Máximo 2 fotos");return;}files.forEach(f=>{const r=new FileReader();r.onload=ev=>setFotos(p=>[...p,ev.target.result]);r.readAsDataURL(f);});};return(<div><label style={lbl}>Fotos (máx. 2) *</label><div style={{display:"flex",gap:10,flexWrap:"wrap",marginTop:6}}>{fotos.map((f,i)=>(<div key={i} style={{position:"relative",width:88,height:88}}><img src={f} alt="" style={{width:88,height:88,objectFit:"cover",borderRadius:14,border:"2px solid rgba(255,255,255,0.2)"}}/><button onClick={()=>setFotos(p=>p.filter((_,j)=>j!==i))} style={{position:"absolute",top:-6,right:-6,background:C.red,color:"white",border:"none",borderRadius:"50%",width:22,height:22,cursor:"pointer",fontSize:13,display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button></div>))}{fotos.length<2&&(<div onClick={()=>ref.current.click()} style={{width:88,height:88,border:`2px dashed ${C.blue}`,borderRadius:14,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:"pointer",background:"rgba(74,184,216,0.1)",color:C.blue,fontSize:11,fontWeight:800,gap:4}}><span style={{fontSize:22}}>📷</span><span>Agregar</span></div>)}</div><input ref={ref} type="file" accept="image/*" multiple style={{display:"none"}} onChange={add}/><p style={{fontSize:11,color:"rgba(255,255,255,0.3)",margin:"8px 0 0"}}>Revisadas en 24-48h antes de publicarse</p></div>);}
 
+// ── PUBLISH MODAL ──────────────────────────────────────────────────────────
 function PublishModal({currentUser,onClose,onPublish}){
-  const[form,setForm]=useState({categoria:"uniforme",articulo:"",descripcion:"",talla:TALLAS[0],estado:"como_nuevo",tipo:"Venta",precio:"",club:currentUser.club||""});
+  const[form,setForm]=useState({categoria:"uniforme",articulo:"",descripcion:"",talla:TALLAS[0],estado:"como_nuevo",tipo:"Venta",precio:"",colegio:COLEGIOS[0],club:""});
   const[fotos,setFotos]=useState([]);
-  const f=(k,v)=>setForm(p=>({...p,[k]:v,...(k==="categoria"?{articulo:""}:{})}));
-  const valid=form.articulo&&form.descripcion.trim()&&fotos.length>0&&(form.tipo==="Donación"||form.precio);
+  const f=(k,v)=>setForm(p=>({...p,[k]:v,...(k==="categoria"?{articulo:"",talla:k==="zapatos"?TALLAS_ZAPATO[0]:TALLAS[0]}:{})}));
   const cat=getCat(form.categoria);
+  const tallasActuales=form.categoria==="zapatos"?TALLAS_ZAPATO:TALLAS;
+  const valid=form.articulo&&form.descripcion.trim()&&fotos.length>0&&(form.tipo==="Donación"||form.precio);
+
   return(
     <Overlay onClose={onClose}>
-      <div style={{background:`linear-gradient(135deg,${cat.color}44,${cat.color}22)`,padding:"24px 28px 20px",borderRadius:"28px 28px 0 0",borderBottom:"1px solid rgba(255,255,255,0.08)"}}>
-        <div style={{fontSize:32}}>{cat.emoji}</div>
-        <h2 style={{color:"white",margin:"6px 0 2px",fontSize:21,fontWeight:900}}>Nueva publicación</h2>
-        <p style={{color:"rgba(255,255,255,0.5)",fontSize:12,margin:0}}>📍 {currentUser.colegio}{currentUser.club?` · ${currentUser.club}`:""}</p>
+      <div style={{background:`linear-gradient(135deg,${cat.color}44,${cat.color}22)`,padding:"22px 28px 18px",borderRadius:"28px 28px 0 0",borderBottom:"1px solid rgba(255,255,255,0.08)"}}>
+        <div style={{fontSize:30}}>{cat.emoji}</div>
+        <h2 style={{color:"white",margin:"5px 0 1px",fontSize:20,fontWeight:900}}>Nueva publicación</h2>
       </div>
-      <div style={{padding:"22px 28px 28px",display:"flex",flexDirection:"column",gap:16}}>
-        <div><label style={lbl}>Categoría *</label><div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:6}}>{CATS.map(c=>(<button key={c.id} onClick={()=>f("categoria",c.id)} style={{padding:"7px 14px",border:`2px solid ${form.categoria===c.id?c.color:"rgba(255,255,255,0.12)"}`,background:form.categoria===c.id?`${c.color}22`:"transparent",borderRadius:50,cursor:"pointer",fontSize:12,fontWeight:form.categoria===c.id?800:400,color:form.categoria===c.id?c.color:"rgba(255,255,255,0.6)",fontFamily:"inherit"}}>{c.emoji} {c.label}</button>))}</div></div>
-        {form.categoria==="club"&&<div><label style={lbl}>Club *</label><select value={form.club} onChange={e=>f("club",e.target.value)} style={inp}><option value="" style={{background:C.navy2}}>-- Selecciona tu club --</option>{CLUBS.map(c=><option key={c} style={{background:C.navy2}}>{c}</option>)}</select></div>}
+      <div style={{padding:"20px 28px 28px",display:"flex",flexDirection:"column",gap:14}}>
+        {/* Categoría */}
+        <div><label style={lbl}>Categoría *</label><div style={{display:"flex",gap:7,flexWrap:"wrap",marginTop:6}}>{CATS.map(c=>(<button key={c.id} onClick={()=>f("categoria",c.id)} style={{padding:"6px 12px",border:`2px solid ${form.categoria===c.id?c.color:"rgba(255,255,255,0.12)"}`,background:form.categoria===c.id?`${c.color}22`:"transparent",borderRadius:50,cursor:"pointer",fontSize:11,fontWeight:form.categoria===c.id?800:400,color:form.categoria===c.id?c.color:"rgba(255,255,255,0.6)",fontFamily:"inherit"}}>{c.emoji} {c.label}</button>))}</div></div>
+
+        {/* Colegio o club según categoría */}
+        {form.categoria==="club"?(
+          <div><label style={lbl}>Club *</label><select value={form.club} onChange={e=>f("club",e.target.value)} style={inp}><option value="" style={{background:C.navy2}}>-- Selecciona el club --</option>{CLUBS.map(c=><option key={c} style={{background:C.navy2}}>{c}</option>)}</select></div>
+        ):(
+          <div><label style={lbl}>Colegio *</label><select value={form.colegio} onChange={e=>f("colegio",e.target.value)} style={inp}>{COLEGIOS.map(c=><option key={c} style={{background:C.navy2}}>{c}</option>)}</select></div>
+        )}
+
+        {/* Artículo */}
         <div><label style={lbl}>Artículo *</label><select value={form.articulo} onChange={e=>f("articulo",e.target.value)} style={{...inp,color:form.articulo?"white":"rgba(255,255,255,0.35)"}}><option value="" style={{background:C.navy2}}>-- Selecciona --</option>{(ARTICULOS[form.categoria]||[]).map(a=><option key={a} style={{background:C.navy2}}>{a}</option>)}</select></div>
+
         <PhotoUploader fotos={fotos} setFotos={setFotos}/>
-        <div><label style={lbl}>Descripción *</label><textarea value={form.descripcion} onChange={e=>f("descripcion",e.target.value)} placeholder="Describe el artículo..." rows={3} style={{...inp,resize:"vertical"}}/></div>
-        <div><label style={lbl}>Condición *</label><div style={{display:"flex",flexDirection:"column",gap:8,marginTop:6}}>{ESTADOS.map(e=>(<button key={e.id} onClick={()=>f("estado",e.id)} style={{padding:"11px 16px",border:`2px solid ${form.estado===e.id?e.color:"rgba(255,255,255,0.12)"}`,background:form.estado===e.id?`${e.color}22`:"transparent",borderRadius:14,cursor:"pointer",fontWeight:form.estado===e.id?800:400,color:form.estado===e.id?e.color:"rgba(255,255,255,0.6)",textAlign:"left",fontSize:13,fontFamily:"inherit",display:"flex",alignItems:"center",gap:8}}><span style={{fontSize:16}}>{e.emoji}</span>{e.label}</button>))}</div></div>
+        <div><label style={lbl}>Descripción *</label><textarea value={form.descripcion} onChange={e=>f("descripcion",e.target.value)} placeholder="Describe el artículo, color, marca si aplica..." rows={3} style={{...inp,resize:"vertical"}}/></div>
+
+        {/* Condición */}
+        <div><label style={lbl}>Condición *</label><div style={{display:"flex",flexDirection:"column",gap:7,marginTop:6}}>{ESTADOS.map(e=>(<button key={e.id} onClick={()=>f("estado",e.id)} style={{padding:"10px 14px",border:`2px solid ${form.estado===e.id?e.color:"rgba(255,255,255,0.12)"}`,background:form.estado===e.id?`${e.color}22`:"transparent",borderRadius:12,cursor:"pointer",fontWeight:form.estado===e.id?800:400,color:form.estado===e.id?e.color:"rgba(255,255,255,0.6)",textAlign:"left",fontSize:13,fontFamily:"inherit",display:"flex",alignItems:"center",gap:8}}><span style={{fontSize:15}}>{e.emoji}</span>{e.label}</button>))}</div></div>
+
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
-          <div><label style={lbl}>Talla</label><select value={form.talla} onChange={e=>f("talla",e.target.value)} style={inp}>{TALLAS.map(t=><option key={t} style={{background:C.navy2}}>{t}</option>)}</select></div>
-          <div><label style={lbl}>Tipo *</label><div style={{display:"flex",gap:8,marginTop:6}}>{["Venta","Donación"].map(t=>(<button key={t} onClick={()=>f("tipo",t)} style={{flex:1,padding:"11px",border:`2px solid ${form.tipo===t?C.yellow:"rgba(255,255,255,0.12)"}`,background:form.tipo===t?"rgba(245,197,24,0.15)":"transparent",color:form.tipo===t?C.yellow:"rgba(255,255,255,0.6)",borderRadius:12,cursor:"pointer",fontWeight:form.tipo===t?800:400,fontSize:12,fontFamily:"inherit"}}>{t==="Venta"?"💰":"🎁"} {t}</button>))}</div></div>
+          <div><label style={lbl}>Talla / Número</label><select value={form.talla} onChange={e=>f("talla",e.target.value)} style={inp}>{tallasActuales.map(t=><option key={t} style={{background:C.navy2}}>{t}</option>)}</select></div>
+          <div><label style={lbl}>Tipo *</label><div style={{display:"flex",gap:8,marginTop:6}}>{["Venta","Donación"].map(t=>(<button key={t} onClick={()=>f("tipo",t)} style={{flex:1,padding:"10px",border:`2px solid ${form.tipo===t?C.yellow:"rgba(255,255,255,0.12)"}`,background:form.tipo===t?"rgba(245,197,24,0.15)":"transparent",color:form.tipo===t?C.yellow:"rgba(255,255,255,0.6)",borderRadius:12,cursor:"pointer",fontWeight:form.tipo===t?800:400,fontSize:12,fontFamily:"inherit"}}>{t==="Venta"?"💰":"🎁"} {t}</button>))}</div></div>
         </div>
+
         {form.tipo==="Venta"&&<div><label style={lbl}>Precio (CLP) *</label><input type="number" value={form.precio} onChange={e=>f("precio",e.target.value)} placeholder="Ej: 5000" style={inp}/></div>}
         <div style={{background:"rgba(245,197,24,0.1)",border:"1.5px solid rgba(245,197,24,0.3)",borderRadius:14,padding:"12px 14px",fontSize:12,color:C.yellow}}>⏳ Tu publicación será revisada en 24-48 horas antes de publicarse.</div>
         <div style={{display:"flex",gap:10}}>
@@ -307,26 +325,173 @@ function PublishModal({currentUser,onClose,onPublish}){
   );
 }
 
-function WalletPanel({user,onClose}){const totalPending=user.walletPending?.reduce((s,p)=>s+p.amount,0)||0;const today=new Date();const daysLeft=p=>Math.max(0,Math.ceil((new Date(p.releaseDate)-today)/(1000*60*60*24)));return(<Overlay onClose={onClose} maxW={440}><div style={{padding:"28px 28px 32px"}}><div style={{textAlign:"center",marginBottom:24}}><div style={{fontSize:44,marginBottom:6}}>💰</div><h2 style={{color:"white",fontWeight:900,margin:"0 0 4px",fontSize:22}}>Mi Billetera SchoolBag</h2></div><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:20}}><div style={{background:`${C.green}22`,border:`1px solid ${C.green}44`,borderRadius:18,padding:"18px 16px",textAlign:"center"}}><div style={{fontSize:12,color:C.green,fontWeight:800,marginBottom:6}}>DISPONIBLE</div><div style={{fontSize:26,fontWeight:900,color:C.green}}>{fmt(user.walletBalance)}</div></div><div style={{background:`${C.yellow}22`,border:`1px solid ${C.yellow}44`,borderRadius:18,padding:"18px 16px",textAlign:"center"}}><div style={{fontSize:12,color:C.yellow,fontWeight:800,marginBottom:6}}>EN PROCESO</div><div style={{fontSize:26,fontWeight:900,color:C.yellow}}>{fmt(totalPending)}</div></div></div><div style={{background:"rgba(74,184,216,0.1)",border:`1px solid ${C.blue}33`,borderRadius:14,padding:"12px 16px",fontSize:12,color:C.blue,marginBottom:20}}>💡 El 80% de cada venta ingresa como "en proceso". A los {WALLET_DAYS} días se libera para retirar.</div>{user.walletBalance>0&&<button style={{...btnP(C.green),width:"100%",textAlign:"center",fontSize:15,marginBottom:10}}>Retirar {fmt(user.walletBalance)} →</button>}<button onClick={onClose} style={{width:"100%",padding:"11px",background:"transparent",border:"1px solid rgba(255,255,255,0.12)",borderRadius:50,color:"rgba(255,255,255,0.5)",cursor:"pointer",fontSize:14,fontFamily:"inherit"}}>Cerrar</button></div></Overlay>);}
+// ── PRODUCT CARD ───────────────────────────────────────────────────────────
+function PCard({product,users,reviews,onView,onCart,inCart,featured}){
+  const cat=getCat(product.categoria);
+  const seller=getUser(product.vendedorId,users);
+  const score=sellerScore(product.vendedorId,reviews);
+  const isD=product.tipo==="Donación";
+  return(
+    <div style={{background:C.navy2,borderRadius:22,overflow:"hidden",cursor:"pointer",border:`1px solid ${featured?"rgba(245,197,24,0.4)":"rgba(255,255,255,0.08)"}`,transition:"transform .2s,box-shadow .2s",display:"flex",flexDirection:"column",position:"relative"}}
+      onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-5px)";e.currentTarget.style.boxShadow="0 18px 48px rgba(0,0,0,.5)";}}
+      onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";}}>
+      {featured&&<div style={{position:"absolute",top:0,left:0,right:0,height:3,background:`linear-gradient(90deg,${C.yellow},${C.orange})`}}/>}
+      <div onClick={()=>onView(product)} style={{height:150,overflow:"hidden",position:"relative",background:cat.light,display:"flex",alignItems:"center",justifyContent:"center"}}>
+        {product.fotos?.[0]?<img src={product.fotos[0]} alt={product.articulo} style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<span style={{fontSize:50}}>{cat.emoji}</span>}
+        <div style={{position:"absolute",top:9,left:9,display:"flex",gap:4}}>
+          <span style={{background:isD?C.green:C.red,color:"white",fontSize:10,fontWeight:800,padding:"2px 9px",borderRadius:50}}>{isD?"🎁":"💰"} {isD?"Donación":"Venta"}</span>
+          {featured&&<span style={{background:C.yellow,color:C.navy,fontSize:10,fontWeight:800,padding:"2px 8px",borderRadius:50}}>⭐</span>}
+        </div>
+      </div>
+      <div onClick={()=>onView(product)} style={{padding:"11px 13px",flex:1,display:"flex",flexDirection:"column",gap:3}}>
+        <div style={{fontWeight:800,fontSize:13,color:"white",lineHeight:1.3}}>{product.articulo}</div>
+        <div style={{fontSize:11,color:"rgba(255,255,255,0.4)"}}>🏫 {product.colegio||product.club}</div>
+        <EstadoBadge estadoId={product.estado}/>
+        {score&&<div style={{display:"flex",alignItems:"center",gap:3,marginTop:2}}><span style={{color:C.yellow,fontSize:11}}>★</span><span style={{fontSize:11,color:"rgba(255,255,255,0.5)"}}>{score.toFixed(1)} · {seller?.nombre.split(" ")[0]}</span></div>}
+      </div>
+      <div style={{padding:"9px 13px",borderTop:"1px solid rgba(255,255,255,0.07)",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+        <span style={{fontWeight:900,fontSize:17,color:isD?C.green:C.yellow}}>{fmt(product.precio)}</span>
+        {!isD&&<button onClick={e=>{e.stopPropagation();onCart(product);}} style={{background:inCart?C.green:C.red,color:"white",border:"none",borderRadius:50,padding:"6px 13px",cursor:"pointer",fontSize:11,fontWeight:800}}>{inCart?"✓ Agregado":"🛍️ Agregar"}</button>}
+      </div>
+    </div>
+  );
+}
 
-function ReviewModal({order,vendedor,onClose,onSubmit}){const[stars,setStars]=useState(0);const[comment,setComment]=useState("");const valid=stars>0;const info=stars===1?"⚠️ Esta calificación iniciará un ticket de soporte.":stars===2?"⚠️ Esto generará una advertencia al vendedor.":"";return(<Overlay onClose={onClose} maxW={440}><div style={{padding:"28px 28px 32px"}}><div style={{textAlign:"center",marginBottom:22}}><div style={{fontSize:40,marginBottom:8}}>⭐</div><h2 style={{color:"white",fontWeight:900,margin:"0 0 4px",fontSize:20}}>Califica tu compra</h2><div style={{display:"flex",alignItems:"center",gap:8,justifyContent:"center",marginTop:10}}><Ava user={vendedor} size={32}/><span style={{color:"rgba(255,255,255,0.7)",fontSize:14}}>{vendedor?.nombre}</span></div></div><div style={{background:C.gray,borderRadius:16,padding:"16px",marginBottom:16,textAlign:"center"}}><div style={{color:"rgba(255,255,255,0.55)",fontSize:13,marginBottom:10}}>¿Cómo fue tu experiencia?</div><div style={{display:"flex",justifyContent:"center",marginBottom:8}}><Stars value={stars} onChange={setStars} size={36}/></div>{stars>0&&<div style={{fontSize:13,fontWeight:800,color:[C.red,C.orange,C.yellow,C.blue,C.green][stars-1]}}>{["😤 Muy mala","😕 Mala","😐 Regular","😊 Buena","🤩 Excelente"][stars-1]}</div>}</div>{info&&<div style={{background:"rgba(245,131,42,0.12)",border:`1px solid ${C.orange}44`,borderRadius:12,padding:"10px 14px",fontSize:12,color:C.orange,marginBottom:14}}>{info}</div>}<div style={{marginBottom:18}}><label style={lbl}>Comentario (opcional)</label><textarea value={comment} onChange={e=>setComment(e.target.value)} placeholder="Cuéntale a otros compradores..." rows={3} style={{...inp,resize:"vertical"}}/></div><div style={{display:"flex",gap:10}}><button onClick={onClose} style={{padding:"12px 20px",background:C.gray,border:"none",borderRadius:50,cursor:"pointer",fontSize:14,color:"rgba(255,255,255,0.6)",fontFamily:"inherit"}}>Cancelar</button><button onClick={()=>valid&&onSubmit(stars,comment)} style={{...btnP(C.yellow),flex:1,opacity:valid?1:.4,cursor:valid?"pointer":"not-allowed",textAlign:"center"}}>Enviar calificación</button></div></div></Overlay>);}
+// ── DETAIL MODAL ───────────────────────────────────────────────────────────
+function DetailModal({product,users,reviews,currentUser,onClose,onChat,onCart,inCart}){
+  const[foto,setFoto]=useState(0);
+  const cat=getCat(product.categoria);
+  const seller=getUser(product.vendedorId,users);
+  const score=sellerScore(product.vendedorId,reviews);
+  const sellerRevs=reviews.filter(r=>r.vendedorId===product.vendedorId);
+  const isOwn=currentUser?.id===product.vendedorId;
+  const isD=product.tipo==="Donación";
+  return(
+    <Overlay onClose={onClose}>
+      <div style={{background:cat.light,minHeight:200,display:"flex",alignItems:"center",justifyContent:"center",position:"relative",borderRadius:"28px 28px 0 0",overflow:"hidden"}}>
+        {product.fotos?.length>0?<img src={product.fotos[foto]} alt="" style={{width:"100%",height:250,objectFit:"cover"}}/>:<span style={{fontSize:80}}>{cat.emoji}</span>}
+        {product.fotos?.length>1&&<div style={{position:"absolute",bottom:10,left:0,right:0,display:"flex",justifyContent:"center",gap:8}}>{product.fotos.map((_,i)=><button key={i} onClick={()=>setFoto(i)} style={{width:9,height:9,borderRadius:"50%",border:"none",background:i===foto?"white":"rgba(255,255,255,.4)",cursor:"pointer",padding:0}}/>)}</div>}
+      </div>
+      <div style={{padding:"20px 24px 26px"}}>
+        <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:10}}>
+          <span style={{background:isD?C.green:C.red,color:"white",fontSize:11,fontWeight:800,padding:"3px 11px",borderRadius:50}}>{isD?"🎁 Donación":"💰 Venta"}</span>
+          <EstadoBadge estadoId={product.estado}/>
+        </div>
+        <h2 style={{margin:"0 0 7px",fontSize:21,color:"white",fontWeight:900}}>{product.articulo}</h2>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.6)",lineHeight:1.65,margin:"0 0 12px"}}>{product.descripcion}</p>
+        <div style={{fontSize:12,color:"rgba(255,255,255,0.4)",marginBottom:18}}>🏫 {product.colegio||product.club} · 📏 {product.talla}</div>
+        <div style={{background:C.gray,borderRadius:16,padding:"12px 14px",marginBottom:14}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:score?8:0}}>
+            <Ava user={seller} size={42}/>
+            <div style={{flex:1}}>
+              <div style={{fontWeight:800,fontSize:14,color:"white"}}>{seller?.nombre}</div>
+              <ScorePill score={score}/>
+            </div>
+          </div>
+          {sellerRevs.length>0&&(<div style={{borderTop:"1px solid rgba(255,255,255,0.08)",paddingTop:8,marginTop:4}}>{sellerRevs.slice(-2).reverse().map(r=>{const comp=getUser(r.compradorId,users);return(<div key={r.id} style={{marginBottom:7,display:"flex",gap:7}}><Ava user={comp} size={24}/><div style={{flex:1}}><div style={{display:"flex",gap:5,alignItems:"center"}}><Stars value={r.stars} size={11}/><span style={{fontSize:11,color:"rgba(255,255,255,0.35)"}}>{r.fecha}</span></div>{r.comment&&<div style={{fontSize:12,color:"rgba(255,255,255,0.55)",lineHeight:1.4,marginTop:1}}>{r.comment}</div>}</div></div>);})}</div>)}
+        </div>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:10}}>
+          <span style={{fontSize:26,fontWeight:900,color:isD?C.green:C.yellow}}>{fmt(product.precio)}</span>
+          <div style={{display:"flex",gap:7}}>
+            {!isOwn&&<button onClick={()=>{onChat(seller);onClose();}} style={{...btnP(C.gray),fontSize:12,padding:"9px 14px"}}>💬 Chatear</button>}
+            {!isOwn&&!isD&&<button onClick={()=>{onCart(product);}} style={{...btnP(inCart?C.green:C.red),fontSize:12,padding:"9px 16px"}}>{inCart?"✓ En SchoolBag":"🛍️ Agregar"}</button>}
+          </div>
+        </div>
+      </div>
+    </Overlay>
+  );
+}
 
-function PCard({product,users,reviews,onView,onCart,inCart,featured}){const cat=getCat(product.categoria);const seller=getUser(product.vendedorId,users);const score=sellerScore(product.vendedorId,reviews);const isD=product.tipo==="Donación";return(<div style={{background:C.navy2,borderRadius:22,overflow:"hidden",cursor:"pointer",border:`1px solid ${featured?"rgba(245,197,24,0.4)":"rgba(255,255,255,0.08)"}`,transition:"transform .2s,box-shadow .2s",display:"flex",flexDirection:"column",position:"relative"}} onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-6px)";e.currentTarget.style.boxShadow="0 20px 50px rgba(0,0,0,.5)";}} onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";}}>{featured&&<div style={{position:"absolute",top:0,left:0,right:0,height:3,background:`linear-gradient(90deg,${C.yellow},${C.orange})`}}/>}<div onClick={()=>onView(product)} style={{height:155,overflow:"hidden",position:"relative",background:cat.light,display:"flex",alignItems:"center",justifyContent:"center"}}>{product.fotos?.[0]?<img src={product.fotos[0]} alt={product.articulo} style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<span style={{fontSize:52}}>{cat.emoji}</span>}<div style={{position:"absolute",top:10,left:10,display:"flex",gap:5}}><span style={{background:isD?C.green:C.red,color:"white",fontSize:10,fontWeight:800,padding:"3px 10px",borderRadius:50}}>{isD?"🎁 Donación":"💰 Venta"}</span>{featured&&<span style={{background:C.yellow,color:C.navy,fontSize:10,fontWeight:800,padding:"3px 10px",borderRadius:50}}>⭐</span>}</div></div><div onClick={()=>onView(product)} style={{padding:"12px 14px",flex:1,display:"flex",flexDirection:"column",gap:4}}><div style={{fontWeight:800,fontSize:13.5,color:"white",lineHeight:1.3}}>{product.articulo}</div><div style={{fontSize:11,color:"rgba(255,255,255,0.45)"}}>🏫 {product.colegio}{product.club?` · ⚽ ${product.club}`:""}</div><EstadoBadge estadoId={product.estado}/>{score&&<div style={{display:"flex",alignItems:"center",gap:4,marginTop:2}}><span style={{color:C.yellow,fontSize:12}}>★</span><span style={{fontSize:11,color:"rgba(255,255,255,0.55)"}}>{score.toFixed(1)} · {seller?.nombre.split(" ")[0]}</span></div>}</div><div style={{padding:"10px 14px",borderTop:"1px solid rgba(255,255,255,0.07)",display:"flex",alignItems:"center",justifyContent:"space-between"}}><span style={{fontWeight:900,fontSize:18,color:isD?C.green:C.yellow}}>{fmt(product.precio)}</span>{!isD&&<button onClick={e=>{e.stopPropagation();onCart(product);}} style={{background:inCart?C.green:C.red,color:"white",border:"none",borderRadius:50,padding:"7px 14px",cursor:"pointer",fontSize:12,fontWeight:800}}>{inCart?"✓ Agregado":"🛍️ Agregar"}</button>}</div></div>);}
+// ── CART ───────────────────────────────────────────────────────────────────
+function CartPanel({cart,products,onClose,onRemove,onCheckout}){
+  const items=cart.map(id=>products.find(p=>p.id===id)).filter(Boolean);
+  const total=items.reduce((s,p)=>s+p.precio,0);
+  return(
+    <div style={{position:"fixed",top:0,right:0,width:370,height:"100vh",background:C.navy2,boxShadow:"-8px 0 40px rgba(0,0,0,.5)",zIndex:400,display:"flex",flexDirection:"column",borderLeft:"1px solid rgba(255,255,255,0.08)"}}>
+      <div style={{padding:"18px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",borderBottom:"1px solid rgba(255,255,255,0.08)"}}><div><div style={{color:"white",fontWeight:900,fontSize:18}}>🎒 Mi SchoolBag</div><div style={{color:"rgba(255,255,255,0.4)",fontSize:12}}>{items.length} artículo{items.length!==1?"s":""}</div></div><button onClick={onClose} style={{background:C.gray,border:"none",color:"white",borderRadius:"50%",width:32,height:32,cursor:"pointer",fontSize:17}}>✕</button></div>
+      <div style={{flex:1,overflowY:"auto",padding:14}}>
+        {items.length===0?(<div style={{textAlign:"center",padding:"55px 0",color:"rgba(255,255,255,0.25)"}}><div style={{fontSize:50}}>🛍️</div><div style={{fontSize:15,marginTop:10,fontWeight:700}}>Tu SchoolBag está vacía</div></div>):items.map(p=>{const cat=getCat(p.categoria);return(<div key={p.id} style={{display:"flex",gap:11,alignItems:"center",padding:"11px 9px",borderRadius:14,marginBottom:7,background:C.gray}}><div style={{width:52,height:52,borderRadius:11,overflow:"hidden",background:cat.light,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{p.fotos?.[0]?<img src={p.fotos[0]} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<span style={{fontSize:22}}>{cat.emoji}</span>}</div><div style={{flex:1}}><div style={{fontWeight:800,fontSize:13,color:"white"}}>{p.articulo}</div><div style={{fontSize:11,color:"rgba(255,255,255,0.4)"}}>{p.talla}</div><div style={{fontWeight:900,color:C.yellow,fontSize:14,marginTop:2}}>{fmt(p.precio)}</div></div><button onClick={()=>onRemove(p.id)} style={{background:"none",border:"none",color:"rgba(255,255,255,0.3)",cursor:"pointer",fontSize:17,padding:3}}>✕</button></div>);})}
+      </div>
+      {items.length>0&&(
+        <div style={{padding:"14px 18px",borderTop:"1px solid rgba(255,255,255,0.08)"}}>
+          <div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}><span style={{color:"rgba(255,255,255,0.5)",fontSize:13}}>Subtotal</span><span style={{color:"white",fontWeight:700}}>{fmt(total)}</span></div>
+          <div style={{display:"flex",justifyContent:"space-between",marginBottom:14}}><span style={{color:"rgba(255,255,255,0.4)",fontSize:12}}>Comisión SchoolBag (20%)</span><span style={{fontSize:12,color:C.yellow}}>{fmt(Math.round(total*COMM))}</span></div>
+          <div style={{display:"flex",justifyContent:"space-between",fontWeight:900,fontSize:19,color:"white",marginBottom:16}}><span>Total</span><span style={{color:C.yellow}}>{fmt(total)}</span></div>
+          <button onClick={()=>onCheckout(items,total)} style={{...btnP(C.green),width:"100%",fontSize:15,padding:"14px",textAlign:"center"}}>Pagar con Mercado Pago →</button>
+          <p style={{textAlign:"center",fontSize:11,color:"rgba(255,255,255,0.3)",margin:"9px 0 0"}}>80% al vendedor · 20% plataforma</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
-function DetailModal({product,users,reviews,currentUser,onClose,onChat,onCart,inCart}){const[foto,setFoto]=useState(0);const cat=getCat(product.categoria);const seller=getUser(product.vendedorId,users);const score=sellerScore(product.vendedorId,reviews);const sellerRevs=reviews.filter(r=>r.vendedorId===product.vendedorId);const isOwn=currentUser?.id===product.vendedorId;const isD=product.tipo==="Donación";return(<Overlay onClose={onClose}><div style={{background:cat.light,minHeight:220,display:"flex",alignItems:"center",justifyContent:"center",position:"relative",borderRadius:"28px 28px 0 0",overflow:"hidden"}}>{product.fotos?.length>0?<img src={product.fotos[foto]} alt="" style={{width:"100%",height:260,objectFit:"cover"}}/>:<span style={{fontSize:80}}>{cat.emoji}</span>}{product.fotos?.length>1&&<div style={{position:"absolute",bottom:12,left:0,right:0,display:"flex",justifyContent:"center",gap:8}}>{product.fotos.map((_,i)=><button key={i} onClick={()=>setFoto(i)} style={{width:10,height:10,borderRadius:"50%",border:"none",background:i===foto?"white":"rgba(255,255,255,.4)",cursor:"pointer",padding:0}}/>)}</div>}</div><div style={{padding:"22px 26px 28px"}}><div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:12}}><span style={{background:isD?C.green:C.red,color:"white",fontSize:11,fontWeight:800,padding:"4px 12px",borderRadius:50}}>{isD?"🎁 Donación":"💰 Venta"}</span><EstadoBadge estadoId={product.estado}/></div><h2 style={{margin:"0 0 8px",fontSize:22,color:"white",fontWeight:900}}>{product.articulo}</h2><p style={{fontSize:14,color:"rgba(255,255,255,0.65)",lineHeight:1.7,margin:"0 0 14px"}}>{product.descripcion}</p><div style={{fontSize:13,color:"rgba(255,255,255,0.45)",marginBottom:20}}>🏫 {product.colegio}{product.club?` · ⚽ ${product.club}`:""} · 📏 {product.talla}</div><div style={{background:C.gray,borderRadius:18,padding:"14px 16px",marginBottom:16}}><div style={{display:"flex",alignItems:"center",gap:12,marginBottom:score?10:0}}><Ava user={seller} size={46}/><div style={{flex:1}}><div style={{fontWeight:800,fontSize:15,color:"white"}}>{seller?.nombre}</div><div style={{fontSize:12,color:"rgba(255,255,255,0.45)",marginBottom:4}}>🏫 {seller?.colegio}</div><ScorePill score={score}/></div></div>{sellerRevs.length>0&&(<div style={{borderTop:"1px solid rgba(255,255,255,0.08)",paddingTop:10,marginTop:4}}>{sellerRevs.slice(-2).reverse().map(r=>{const comp=getUser(r.compradorId,users);return(<div key={r.id} style={{marginBottom:8,display:"flex",gap:8}}><Ava user={comp} size={26}/><div style={{flex:1}}><div style={{display:"flex",gap:6,alignItems:"center"}}><Stars value={r.stars} size={12}/><span style={{fontSize:11,color:"rgba(255,255,255,0.4)"}}>{r.fecha}</span></div>{r.comment&&<div style={{fontSize:12,color:"rgba(255,255,255,0.55)",lineHeight:1.4,marginTop:2}}>{r.comment}</div>}</div></div>);})}</div>)}</div><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12}}><span style={{fontSize:28,fontWeight:900,color:isD?C.green:C.yellow}}>{fmt(product.precio)}</span><div style={{display:"flex",gap:8}}>{!isOwn&&<button onClick={()=>{onChat(seller);onClose();}} style={{...btnP(C.gray),fontSize:13,padding:"10px 16px"}}>💬 Chatear</button>}{!isOwn&&!isD&&<button onClick={()=>onCart(product)} style={{...btnP(inCart?C.green:C.red),fontSize:13,padding:"10px 18px"}}>{inCart?"✓ En SchoolBag":"🛍️ Agregar"}</button>}</div></div></div></Overlay>);}
+// ── PAYMENT MODAL ──────────────────────────────────────────────────────────
+function PaymentModal({items,total,onClose,onSuccess}){
+  const[step,setStep]=useState(1);
+  const seller=Math.round(total*(1-COMM));
+  const comm=Math.round(total*COMM);
+  const releaseDate=new Date(Date.now()+WALLET_DAYS*86400000).toISOString().slice(0,10);
+  const pay=()=>{setStep(2);setTimeout(()=>setStep(3),2200);};
+  return(
+    <Overlay onClose={step<3?onClose:()=>{}}>
+      <div style={{padding:"28px 26px 30px"}}>
+        {step===1&&(<>
+          <div style={{textAlign:"center",marginBottom:20}}><div style={{fontSize:40}}>🔒</div><h2 style={{margin:"7px 0 3px",fontSize:21,color:"white",fontWeight:900}}>Confirmar pago</h2><p style={{fontSize:12,color:"rgba(255,255,255,0.4)",margin:0}}>Pago seguro vía Mercado Pago</p></div>
+          <div style={{background:C.gray,borderRadius:16,padding:"14px 16px",marginBottom:18}}>
+            {items.map(p=>(<div key={p.id} style={{display:"flex",justifyContent:"space-between",marginBottom:7,fontSize:13,color:"white"}}><span>{p.articulo}</span><span style={{fontWeight:800,color:C.yellow}}>{fmt(p.precio)}</span></div>))}
+            <div style={{borderTop:"1px solid rgba(255,255,255,0.1)",marginTop:8,paddingTop:8}}>
+              <div style={{display:"flex",justifyContent:"space-between",fontSize:12,color:"rgba(255,255,255,0.4)",marginBottom:3}}><span>Comisión (20%)</span><span>{fmt(comm)}</span></div>
+              <div style={{display:"flex",justifyContent:"space-between",fontWeight:900,fontSize:18,color:C.yellow}}><span>Total</span><span>{fmt(total)}</span></div>
+            </div>
+          </div>
+          <div style={{border:`2px solid #009EE3`,borderRadius:16,padding:"14px 16px",marginBottom:18}}>
+            <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:12}}><span style={{fontSize:19}}>💳</span><span style={{fontWeight:800,color:"#009EE3",fontSize:13}}>Mercado Pago</span></div>
+            <div style={{display:"flex",flexDirection:"column",gap:9}}>
+              <div><label style={lbl}>Número de tarjeta</label><input placeholder="1234 5678 9012 3456" style={inp}/></div>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:9}}><div><label style={lbl}>Vencimiento</label><input placeholder="MM/AA" style={inp}/></div><div><label style={lbl}>CVV</label><input placeholder="123" style={inp}/></div></div>
+              <div><label style={lbl}>Nombre</label><input placeholder="NOMBRE APELLIDO" style={inp}/></div>
+            </div>
+          </div>
+          <button onClick={pay} style={{...btnP("#009EE3"),width:"100%",fontSize:15,padding:"13px",textAlign:"center"}}>Pagar {fmt(total)} →</button>
+        </>)}
+        {step===2&&<div style={{textAlign:"center",padding:"48px 20px"}}><div style={{fontSize:50,marginBottom:14}}>⏳</div><h2 style={{color:"white"}}>Procesando...</h2></div>}
+        {step===3&&(
+          <div style={{textAlign:"center",padding:"32px 18px"}}>
+            <div style={{fontSize:58,marginBottom:12}}>✅</div>
+            <h2 style={{color:C.green,margin:"0 0 7px",fontWeight:900}}>¡Pago exitoso!</h2>
+            <p style={{color:"rgba(255,255,255,0.5)",marginBottom:20,fontSize:13}}>El vendedor recibirá su pago cuando confirmes recibir el artículo</p>
+            <div style={{background:C.gray,borderRadius:14,padding:"14px 18px",textAlign:"left",marginBottom:14}}>
+              <div style={{display:"flex",justifyContent:"space-between",marginBottom:5,fontSize:13}}><span style={{color:"rgba(255,255,255,0.5)"}}>Vendedor (80%)</span><span style={{fontWeight:800,color:C.green}}>{fmt(seller)}</span></div>
+              <div style={{display:"flex",justifyContent:"space-between",fontSize:13}}><span style={{color:"rgba(255,255,255,0.5)"}}>Comisión (20%)</span><span style={{fontWeight:800,color:C.yellow}}>{fmt(comm)}</span></div>
+            </div>
+            <div style={{background:`${C.yellow}22`,border:`1px solid ${C.yellow}44`,borderRadius:12,padding:"11px",fontSize:12,color:C.yellow,marginBottom:18}}>⏳ El pago se libera en {WALLET_DAYS} días ({releaseDate}).</div>
+            <button onClick={onSuccess} style={{...btnP(C.green),width:"100%",padding:"12px",textAlign:"center"}}>Confirmar recepción</button>
+          </div>
+        )}
+      </div>
+    </Overlay>
+  );
+}
 
-function CartPanel({cart,products,onClose,onRemove,onCheckout}){const items=cart.map(id=>products.find(p=>p.id===id)).filter(Boolean);const total=items.reduce((s,p)=>s+p.precio,0);return(<div style={{position:"fixed",top:0,right:0,width:380,height:"100vh",background:C.navy2,boxShadow:"-8px 0 40px rgba(0,0,0,.5)",zIndex:400,display:"flex",flexDirection:"column",borderLeft:"1px solid rgba(255,255,255,0.08)"}}><div style={{padding:"20px 22px",display:"flex",alignItems:"center",justifyContent:"space-between",borderBottom:"1px solid rgba(255,255,255,0.08)"}}><div><div style={{color:"white",fontWeight:900,fontSize:19}}>🎒 Mi SchoolBag</div><div style={{color:"rgba(255,255,255,0.45)",fontSize:12}}>{items.length} artículo{items.length!==1?"s":""}</div></div><button onClick={onClose} style={{background:C.gray,border:"none",color:"white",borderRadius:"50%",width:34,height:34,cursor:"pointer",fontSize:18}}>✕</button></div><div style={{flex:1,overflowY:"auto",padding:16}}>{items.length===0?(<div style={{textAlign:"center",padding:"60px 0",color:"rgba(255,255,255,0.3)"}}><div style={{fontSize:52}}>🛍️</div><div style={{fontSize:16,marginTop:12,fontWeight:700}}>Tu SchoolBag está vacía</div></div>):items.map(p=>{const cat=getCat(p.categoria);return(<div key={p.id} style={{display:"flex",gap:12,alignItems:"center",padding:"12px 10px",borderRadius:16,marginBottom:8,background:C.gray}}><div style={{width:56,height:56,borderRadius:12,overflow:"hidden",background:cat.light,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{p.fotos?.[0]?<img src={p.fotos[0]} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<span style={{fontSize:24}}>{cat.emoji}</span>}</div><div style={{flex:1}}><div style={{fontWeight:800,fontSize:13,color:"white"}}>{p.articulo}</div><EstadoBadge estadoId={p.estado}/><div style={{fontWeight:900,color:C.yellow,fontSize:14,marginTop:4}}>{fmt(p.precio)}</div></div><button onClick={()=>onRemove(p.id)} style={{background:"none",border:"none",color:"rgba(255,255,255,0.3)",cursor:"pointer",fontSize:18,padding:4}}>✕</button></div>);})}</div>{items.length>0&&(<div style={{padding:"16px 20px",borderTop:"1px solid rgba(255,255,255,0.08)"}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}><span style={{color:"rgba(255,255,255,0.5)",fontSize:14}}>Subtotal</span><span style={{color:"white",fontWeight:700}}>{fmt(total)}</span></div><div style={{display:"flex",justifyContent:"space-between",marginBottom:16}}><span style={{color:"rgba(255,255,255,0.4)",fontSize:13}}>Comisión (20%)</span><span style={{fontSize:13,color:C.yellow}}>{fmt(Math.round(total*COMM))}</span></div><div style={{display:"flex",justifyContent:"space-between",fontWeight:900,fontSize:20,color:"white",marginBottom:18}}><span>Total</span><span style={{color:C.yellow}}>{fmt(total)}</span></div><button onClick={()=>onCheckout(items,total)} style={{...btnP(C.green),width:"100%",fontSize:16,padding:"15px",textAlign:"center"}}>Pagar con Mercado Pago →</button></div>)}</div>);}
+// ── REVIEW MODAL ───────────────────────────────────────────────────────────
+function ReviewModal({order,vendedor,onClose,onSubmit}){const[stars,setStars]=useState(0);const[comment,setComment]=useState("");const valid=stars>0;const info=stars===1?"⚠️ Iniciará un ticket de soporte.":stars===2?"⚠️ Se enviará una advertencia al vendedor.":"";return(<Overlay onClose={onClose} maxW={420}><div style={{padding:"26px 26px 30px"}}><div style={{textAlign:"center",marginBottom:20}}><div style={{fontSize:38,marginBottom:7}}>⭐</div><h2 style={{color:"white",fontWeight:900,margin:"0 0 3px",fontSize:19}}>Califica tu compra</h2><div style={{display:"flex",alignItems:"center",gap:7,justifyContent:"center",marginTop:9}}><Ava user={vendedor} size={30}/><span style={{color:"rgba(255,255,255,0.65)",fontSize:13}}>{vendedor?.nombre}</span></div></div><div style={{background:C.gray,borderRadius:14,padding:"14px",marginBottom:14,textAlign:"center"}}><div style={{color:"rgba(255,255,255,0.5)",fontSize:12,marginBottom:9}}>¿Cómo fue tu experiencia?</div><div style={{display:"flex",justifyContent:"center",marginBottom:7}}><Stars value={stars} onChange={setStars} size={34}/></div>{stars>0&&<div style={{fontSize:13,fontWeight:800,color:[C.red,C.orange,C.yellow,C.blue,C.green][stars-1]}}>{["😤 Muy mala","😕 Mala","😐 Regular","😊 Buena","🤩 Excelente"][stars-1]}</div>}</div>{info&&<div style={{background:"rgba(245,131,42,0.12)",borderRadius:11,padding:"9px 13px",fontSize:12,color:C.orange,marginBottom:13}}>{info}</div>}<div style={{marginBottom:16}}><label style={lbl}>Comentario (opcional)</label><textarea value={comment} onChange={e=>setComment(e.target.value)} placeholder="Cuéntale a otros compradores..." rows={2} style={{...inp,resize:"vertical"}}/></div><div style={{display:"flex",gap:9}}><button onClick={onClose} style={{padding:"10px 18px",background:C.gray,border:"none",borderRadius:50,cursor:"pointer",fontSize:13,color:"rgba(255,255,255,0.55)",fontFamily:"inherit"}}>Cancelar</button><button onClick={()=>valid&&onSubmit(stars,comment)} style={{...btnP(C.yellow),flex:1,opacity:valid?1:.4,cursor:valid?"pointer":"not-allowed",textAlign:"center"}}>Enviar</button></div></div></Overlay>);}
 
-function PaymentModal({items,total,onClose,onSuccess}){const[step,setStep]=useState(1);const seller=Math.round(total*(1-COMM));const comm=Math.round(total*COMM);const releaseDate=new Date(Date.now()+WALLET_DAYS*86400000).toISOString().slice(0,10);const pay=()=>{setStep(2);setTimeout(()=>setStep(3),2200);};return(<Overlay onClose={step<3?onClose:()=>{}}><div style={{padding:"30px 28px 32px"}}>{step===1&&(<><div style={{textAlign:"center",marginBottom:24}}><div style={{fontSize:42}}>🔒</div><h2 style={{margin:"8px 0 4px",fontSize:22,color:"white",fontWeight:900}}>Confirmar pago</h2></div><div style={{background:C.gray,borderRadius:18,padding:"16px 18px",marginBottom:20}}>{items.map(p=>(<div key={p.id} style={{display:"flex",justifyContent:"space-between",marginBottom:8,fontSize:14,color:"white"}}><span>{p.articulo}</span><span style={{fontWeight:800,color:C.yellow}}>{fmt(p.precio)}</span></div>))}<div style={{borderTop:"1px solid rgba(255,255,255,0.1)",marginTop:10,paddingTop:10}}><div style={{display:"flex",justifyContent:"space-between",fontSize:13,color:"rgba(255,255,255,0.45)",marginBottom:4}}><span>Comisión (20%)</span><span>{fmt(comm)}</span></div><div style={{display:"flex",justifyContent:"space-between",fontWeight:900,fontSize:19,color:C.yellow}}><span>Total</span><span>{fmt(total)}</span></div></div></div><div style={{border:`2px solid #009EE3`,borderRadius:18,padding:"16px 18px",marginBottom:20}}><div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}><span style={{fontSize:20}}>💳</span><span style={{fontWeight:800,color:"#009EE3",fontSize:14}}>Mercado Pago</span></div><div style={{display:"flex",flexDirection:"column",gap:10}}><div><label style={lbl}>Número de tarjeta</label><input placeholder="1234 5678 9012 3456" style={inp}/></div><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}><div><label style={lbl}>Vencimiento</label><input placeholder="MM/AA" style={inp}/></div><div><label style={lbl}>CVV</label><input placeholder="123" style={inp}/></div></div><div><label style={lbl}>Nombre</label><input placeholder="NOMBRE APELLIDO" style={inp}/></div></div></div><button onClick={pay} style={{...btnP("#009EE3"),width:"100%",fontSize:16,padding:"14px",textAlign:"center"}}>Pagar {fmt(total)} →</button></>)}{step===2&&<div style={{textAlign:"center",padding:"50px 20px"}}><div style={{fontSize:52,marginBottom:16}}>⏳</div><h2 style={{color:"white"}}>Procesando...</h2></div>}{step===3&&(<div style={{textAlign:"center",padding:"36px 20px"}}><div style={{fontSize:60,marginBottom:14}}>✅</div><h2 style={{color:C.green,margin:"0 0 8px",fontWeight:900}}>¡Pago exitoso!</h2><div style={{background:C.gray,borderRadius:16,padding:"16px 20px",textAlign:"left",marginBottom:16}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:6,fontSize:14}}><span style={{color:"rgba(255,255,255,0.5)"}}>Vendedor (80%)</span><span style={{fontWeight:800,color:C.green}}>{fmt(seller)}</span></div><div style={{display:"flex",justifyContent:"space-between",fontSize:14}}><span style={{color:"rgba(255,255,255,0.5)"}}>Comisión (20%)</span><span style={{fontWeight:800,color:C.yellow}}>{fmt(comm)}</span></div></div><div style={{background:`${C.yellow}22`,border:`1px solid ${C.yellow}44`,borderRadius:14,padding:"12px",fontSize:12,color:C.yellow,marginBottom:20}}>⏳ El pago al vendedor se libera en {WALLET_DAYS} días ({releaseDate}).</div><button onClick={onSuccess} style={{...btnP(C.green),width:"100%",padding:"13px",textAlign:"center"}}>Confirmar recepción</button></div>)}</div></Overlay>);}
+// ── WALLET ─────────────────────────────────────────────────────────────────
+function WalletPanel({user,onClose}){const totalPending=user.walletPending?.reduce((s,p)=>s+p.amount,0)||0;const today=new Date();const daysLeft=p=>Math.max(0,Math.ceil((new Date(p.releaseDate)-today)/(1000*60*60*24)));return(<Overlay onClose={onClose} maxW={420}><div style={{padding:"26px 26px 30px"}}><div style={{textAlign:"center",marginBottom:22}}><div style={{fontSize:42,marginBottom:5}}>💰</div><h2 style={{color:"white",fontWeight:900,margin:"0 0 3px",fontSize:21}}>Mi Billetera</h2></div><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:11,marginBottom:18}}><div style={{background:`${C.green}22`,border:`1px solid ${C.green}44`,borderRadius:16,padding:"16px 14px",textAlign:"center"}}><div style={{fontSize:11,color:C.green,fontWeight:800,marginBottom:5}}>DISPONIBLE</div><div style={{fontSize:24,fontWeight:900,color:C.green}}>{fmt(user.walletBalance)}</div></div><div style={{background:`${C.yellow}22`,border:`1px solid ${C.yellow}44`,borderRadius:16,padding:"16px 14px",textAlign:"center"}}><div style={{fontSize:11,color:C.yellow,fontWeight:800,marginBottom:5}}>EN PROCESO</div><div style={{fontSize:24,fontWeight:900,color:C.yellow}}>{fmt(totalPending)}</div></div></div>{user.walletPending?.length>0&&<div style={{marginBottom:16}}>{user.walletPending.map((p,i)=>(<div key={i} style={{background:C.gray,borderRadius:12,padding:"11px 14px",marginBottom:7,display:"flex",justifyContent:"space-between",alignItems:"center"}}><div><div style={{color:"white",fontWeight:800,fontSize:13}}>{fmt(p.amount)}</div><div style={{fontSize:11,color:"rgba(255,255,255,0.4)"}}>Orden #{p.orderId}</div></div><div style={{textAlign:"right"}}><div style={{fontSize:12,color:C.yellow,fontWeight:700}}>⏳ {daysLeft(p)} días</div><div style={{fontSize:11,color:"rgba(255,255,255,0.3)"}}>{p.releaseDate}</div></div></div>))}</div>}<div style={{background:"rgba(74,184,216,0.1)",border:`1px solid ${C.blue}33`,borderRadius:12,padding:"11px 14px",fontSize:12,color:C.blue,marginBottom:18}}>💡 El 80% de cada venta ingresa como "en proceso". A los {WALLET_DAYS} días se libera.</div>{user.walletBalance>0&&<button style={{...btnP(C.green),width:"100%",textAlign:"center",fontSize:14,marginBottom:9}}>Retirar {fmt(user.walletBalance)} →</button>}<button onClick={onClose} style={{width:"100%",padding:"10px",background:"transparent",border:"1px solid rgba(255,255,255,0.12)",borderRadius:50,color:"rgba(255,255,255,0.45)",cursor:"pointer",fontSize:13,fontFamily:"inherit"}}>Cerrar</button></div></Overlay>);}
 
-function ChatPanel({currentUser,users,chats,setChats,onClose}){const[active,setActive]=useState(null);const[msg,setMsg]=useState("");const key=(a,b)=>[a,b].sort().join("-");const myKeys=Object.keys(chats).filter(k=>k.includes(currentUser.id));const otherIds=myKeys.map(k=>k.split("-").find(id=>id!==currentUser.id));const msgs=active?chats[key(currentUser.id,active)]||[]:[];const send=()=>{if(!msg.trim()||!active)return;const k=key(currentUser.id,active);setChats(p=>({...p,[k]:[...(p[k]||[]),{from:currentUser.id,text:msg.trim(),time:new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})}]}));setMsg("");};return(<div style={{position:"fixed",bottom:0,right:24,width:355,height:490,background:C.navy2,borderRadius:"22px 22px 0 0",boxShadow:"0 -6px 40px rgba(0,0,0,.5)",zIndex:400,display:"flex",flexDirection:"column",overflow:"hidden",border:"1px solid rgba(255,255,255,0.1)"}}><div style={{background:C.red,padding:"14px 18px",display:"flex",alignItems:"center",justifyContent:"space-between"}}><div style={{display:"flex",alignItems:"center",gap:8}}>{active&&<button onClick={()=>setActive(null)} style={{background:"rgba(255,255,255,0.2)",border:"none",color:"white",borderRadius:50,padding:"4px 10px",cursor:"pointer",fontSize:12}}>←</button>}<span style={{color:"white",fontWeight:800,fontSize:15}}>💬 {active?getUser(active,users)?.nombre.split(" ")[0]:"Mensajes"}</span></div><button onClick={onClose} style={{background:"rgba(255,255,255,0.2)",border:"none",color:"white",borderRadius:"50%",width:28,height:28,cursor:"pointer",fontSize:15}}>✕</button></div>{!active?(<div style={{flex:1,overflowY:"auto",padding:12}}>{otherIds.length===0&&<div style={{textAlign:"center",padding:40,color:"rgba(255,255,255,0.3)",fontSize:13}}>Sin conversaciones aún</div>}{otherIds.map(uid=>{const u=getUser(uid,users);const k=key(currentUser.id,uid);const last=chats[k]?.slice(-1)[0];return(<div key={uid} onClick={()=>setActive(uid)} style={{display:"flex",gap:10,padding:"10px 8px",borderRadius:14,cursor:"pointer",marginBottom:4}} onMouseEnter={e=>e.currentTarget.style.background=C.gray} onMouseLeave={e=>e.currentTarget.style.background="transparent"}><Ava user={u} size={40}/><div style={{flex:1,overflow:"hidden"}}><div style={{fontWeight:800,fontSize:13,color:"white"}}>{u?.nombre}</div><div style={{fontSize:12,color:"rgba(255,255,255,0.4)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{last?.text||"..."}</div></div></div>);})}</div>):(<><div style={{flex:1,overflowY:"auto",padding:"12px 12px 6px",display:"flex",flexDirection:"column",gap:8}}>{msgs.map((m,i)=>{const mine=m.from===currentUser.id;return(<div key={i} style={{display:"flex",justifyContent:mine?"flex-end":"flex-start"}}><div style={{maxWidth:"78%",background:mine?C.red:C.gray,color:"white",padding:"9px 14px",borderRadius:mine?"18px 18px 4px 18px":"18px 18px 18px 4px",fontSize:13,lineHeight:1.4}}>{m.text}<div style={{fontSize:10,opacity:.5,marginTop:3,textAlign:"right"}}>{m.time}</div></div></div>);})}</div><div style={{padding:"10px 12px",borderTop:"1px solid rgba(255,255,255,0.08)",display:"flex",gap:8}}><input value={msg} onChange={e=>setMsg(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder="Escribe un mensaje..." style={{...inp,flex:1,padding:"10px 14px"}}/><button onClick={send} style={{background:C.red,color:"white",border:"none",borderRadius:14,width:40,height:40,cursor:"pointer",fontSize:16}}>➤</button></div></>)}</div>);}
+// ── CHAT ───────────────────────────────────────────────────────────────────
+function ChatPanel({currentUser,users,chats,setChats,onClose}){const[active,setActive]=useState(null);const[msg,setMsg]=useState("");const key=(a,b)=>[a,b].sort().join("-");const myKeys=Object.keys(chats).filter(k=>k.includes(currentUser.id));const otherIds=myKeys.map(k=>k.split("-").find(id=>id!==currentUser.id));const msgs=active?chats[key(currentUser.id,active)]||[]:[];const send=()=>{if(!msg.trim()||!active)return;const k=key(currentUser.id,active);setChats(p=>({...p,[k]:[...(p[k]||[]),{from:currentUser.id,text:msg.trim(),time:new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})}]}));setMsg("");};return(<div style={{position:"fixed",bottom:0,right:24,width:350,height:480,background:C.navy2,borderRadius:"20px 20px 0 0",boxShadow:"0 -6px 40px rgba(0,0,0,.5)",zIndex:400,display:"flex",flexDirection:"column",overflow:"hidden",border:"1px solid rgba(255,255,255,0.1)"}}><div style={{background:C.red,padding:"13px 16px",display:"flex",alignItems:"center",justifyContent:"space-between"}}><div style={{display:"flex",alignItems:"center",gap:7}}>{active&&<button onClick={()=>setActive(null)} style={{background:"rgba(255,255,255,0.2)",border:"none",color:"white",borderRadius:50,padding:"3px 9px",cursor:"pointer",fontSize:12}}>←</button>}<span style={{color:"white",fontWeight:800,fontSize:14}}>💬 {active?getUser(active,users)?.nombre.split(" ")[0]:"Mensajes"}</span></div><button onClick={onClose} style={{background:"rgba(255,255,255,0.2)",border:"none",color:"white",borderRadius:"50%",width:27,height:27,cursor:"pointer",fontSize:14}}>✕</button></div>{!active?(<div style={{flex:1,overflowY:"auto",padding:11}}>{otherIds.length===0&&<div style={{textAlign:"center",padding:38,color:"rgba(255,255,255,0.3)",fontSize:13}}>Sin conversaciones aún</div>}{otherIds.map(uid=>{const u=getUser(uid,users);const k=key(currentUser.id,uid);const last=chats[k]?.slice(-1)[0];return(<div key={uid} onClick={()=>setActive(uid)} style={{display:"flex",gap:9,padding:"9px 7px",borderRadius:13,cursor:"pointer",marginBottom:3}} onMouseEnter={e=>e.currentTarget.style.background=C.gray} onMouseLeave={e=>e.currentTarget.style.background="transparent"}><Ava user={u} size={38}/><div style={{flex:1,overflow:"hidden"}}><div style={{fontWeight:800,fontSize:12,color:"white"}}>{u?.nombre}</div><div style={{fontSize:11,color:"rgba(255,255,255,0.4)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{last?.text||"..."}</div></div></div>);})}</div>):(<><div style={{flex:1,overflowY:"auto",padding:"11px 11px 5px",display:"flex",flexDirection:"column",gap:7}}>{msgs.map((m,i)=>{const mine=m.from===currentUser.id;return(<div key={i} style={{display:"flex",justifyContent:mine?"flex-end":"flex-start"}}><div style={{maxWidth:"78%",background:mine?C.red:C.gray,color:"white",padding:"8px 13px",borderRadius:mine?"16px 16px 3px 16px":"16px 16px 16px 3px",fontSize:13,lineHeight:1.4}}>{m.text}<div style={{fontSize:10,opacity:.5,marginTop:2,textAlign:"right"}}>{m.time}</div></div></div>);})}</div><div style={{padding:"9px 11px",borderTop:"1px solid rgba(255,255,255,0.08)",display:"flex",gap:7}}><input value={msg} onChange={e=>setMsg(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder="Escribe un mensaje..." style={{...inp,flex:1,padding:"9px 13px"}}/><button onClick={send} style={{background:C.red,color:"white",border:"none",borderRadius:12,width:38,height:38,cursor:"pointer",fontSize:15}}>➤</button></div></>)}</div>);}
 
-function AdminPanel({products,setProducts,users,setUsers,reviews,onClose}){const[tab,setTab]=useState("pending");const pending=products.filter(p=>p.status==="pending");const approved=products.filter(p=>p.status==="approved");const rejected=products.filter(p=>p.status==="rejected");const shown=tab==="pending"?pending:tab==="approved"?approved:rejected;const approve=id=>setProducts(p=>p.map(x=>x.id===id?{...x,status:"approved"}:x));const reject=id=>setProducts(p=>p.map(x=>x.id===id?{...x,status:"rejected"}:x));const lowScore=users.filter(u=>u.role!=="admin").map(u=>({user:u,score:sellerScore(u.id,reviews)})).filter(x=>x.score!==null&&x.score<3).sort((a,b)=>a.score-b.score);return(<div style={{position:"fixed",inset:0,background:C.navy,zIndex:500,overflowY:"auto"}}><div style={{background:C.navy2,padding:"0 28px",height:62,display:"flex",alignItems:"center",justifyContent:"space-between",borderBottom:"1px solid rgba(255,255,255,0.08)",position:"sticky",top:0,zIndex:10}}><div style={{display:"flex",alignItems:"center",gap:10}}><span style={{fontSize:22}}>🛡️</span><span style={{color:"white",fontWeight:900,fontSize:18}}>Panel Admin</span><span style={{background:C.yellow,color:C.navy,fontSize:11,fontWeight:800,padding:"3px 12px",borderRadius:50}}>SchoolBag</span></div><button onClick={onClose} style={{background:C.gray,border:"none",color:"white",borderRadius:50,padding:"8px 18px",cursor:"pointer",fontSize:13,fontWeight:700,fontFamily:"inherit"}}>← Salir</button></div><div style={{padding:"24px 28px",display:"flex",gap:16,flexWrap:"wrap"}}>{[[C.yellow,"⏳",pending.length,"Pendientes"],[C.green,"✅",approved.length,"Aprobadas"],[C.red,"❌",rejected.length,"Rechazadas"],[C.blue,"👥",users.filter(u=>u.role!=="admin").length,"Usuarios"],[C.orange,"⚠️",lowScore.length,"Alertas"]].map(([col,ic,v,lb])=>(<div key={lb} style={{background:C.navy2,borderRadius:20,padding:"18px 22px",flex:1,minWidth:100,border:"1px solid rgba(255,255,255,0.07)"}}><div style={{fontSize:22,marginBottom:4}}>{ic}</div><div style={{fontSize:26,fontWeight:900,color:col}}>{v}</div><div style={{fontSize:12,color:"rgba(255,255,255,0.45)"}}>{lb}</div></div>))}</div>{lowScore.length>0&&(<div style={{padding:"0 28px 24px"}}><div style={{background:`${C.orange}18`,border:`1px solid ${C.orange}44`,borderRadius:18,padding:"18px 20px"}}><div style={{color:C.orange,fontWeight:900,fontSize:15,marginBottom:12}}>⚠️ Vendedores con calificación baja</div>{lowScore.map(({user,score})=>(<div key={user.id} style={{display:"flex",alignItems:"center",gap:12,marginBottom:10,background:C.gray,borderRadius:14,padding:"12px 16px"}}><Ava user={user} size={36}/><div style={{flex:1}}><div style={{fontWeight:800,color:"white",fontSize:14}}>{user.nombre}</div><ScorePill score={score}/></div><button onClick={()=>setUsers(p=>p.map(u=>u.id===user.id?{...u,suspended:true}:u))} style={{background:score<2?C.red:C.orange,color:"white",border:"none",borderRadius:50,padding:"7px 14px",cursor:"pointer",fontSize:12,fontWeight:800,fontFamily:"inherit"}}>{score<2?"Suspender":"Advertir"}</button></div>))}</div></div>)}<div style={{padding:"0 28px 40px"}}><div style={{display:"flex",gap:8,marginBottom:22}}>{[["pending","⏳ Pendientes",pending.length,C.yellow],["approved","✅ Aprobadas",approved.length,C.green],["rejected","❌ Rechazadas",rejected.length,C.red]].map(([t,lb,cnt,col])=>(<button key={t} onClick={()=>setTab(t)} style={{padding:"9px 20px",border:`2px solid ${tab===t?col:"rgba(255,255,255,0.12)"}`,background:tab===t?col:"transparent",color:tab===t?C.navy:"rgba(255,255,255,0.6)",borderRadius:50,cursor:"pointer",fontWeight:800,fontSize:13,fontFamily:"inherit"}}>{lb} ({cnt})</button>))}</div>{shown.length===0?(<div style={{textAlign:"center",padding:60,color:"rgba(255,255,255,0.25)"}}><div style={{fontSize:48}}>📭</div><div style={{fontSize:16,marginTop:12}}>Sin publicaciones</div></div>):(<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))",gap:18}}>{shown.map(p=>{const seller=getUser(p.vendedorId,users);const cat=getCat(p.categoria);return(<div key={p.id} style={{background:C.navy2,borderRadius:20,overflow:"hidden",border:"1px solid rgba(255,255,255,0.07)"}}><div style={{height:140,background:cat.light,display:"flex",overflow:"hidden"}}>{p.fotos?.map((f,i)=><img key={i} src={f} alt="" style={{flex:1,objectFit:"cover",height:"100%"}}/>)}{(!p.fotos||!p.fotos.length)&&<div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",fontSize:48}}>{cat.emoji}</div>}</div><div style={{padding:"14px 16px"}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}><span style={{fontWeight:800,fontSize:14,color:"white"}}>{p.articulo}</span><span style={{fontWeight:900,color:C.yellow}}>{fmt(p.precio)}</span></div><EstadoBadge estadoId={p.estado}/><p style={{fontSize:13,color:"rgba(255,255,255,0.5)",margin:"8px 0 10px",lineHeight:1.4}}>{p.descripcion}</p><div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12,background:C.gray,borderRadius:12,padding:"8px 12px"}}><Ava user={seller} size={26}/><span style={{fontSize:13,color:"white",fontWeight:700}}>{seller?.nombre}</span></div>{tab==="pending"&&(<div style={{display:"flex",gap:8}}><button onClick={()=>approve(p.id)} style={{flex:1,background:C.green,color:"white",border:"none",borderRadius:12,padding:"10px",cursor:"pointer",fontWeight:800,fontSize:13,fontFamily:"inherit"}}>✅ Aprobar</button><button onClick={()=>reject(p.id)} style={{flex:1,background:C.red,color:"white",border:"none",borderRadius:12,padding:"10px",cursor:"pointer",fontWeight:800,fontSize:13,fontFamily:"inherit"}}>❌ Rechazar</button></div>)}{tab!=="pending"&&<div style={{textAlign:"center",padding:"9px",borderRadius:12,background:tab==="approved"?"rgba(93,187,99,0.15)":"rgba(224,58,47,0.15)",color:tab==="approved"?C.green:C.red,fontWeight:800,fontSize:13}}>{tab==="approved"?"✅ Aprobada":"❌ Rechazada"}</div>}</div></div>);})}</div>)}</div></div>);}
+// ── ADMIN PANEL ────────────────────────────────────────────────────────────
+function AdminPanel({products,setProducts,users,setUsers,reviews,onClose}){const[tab,setTab]=useState("pending");const pending=products.filter(p=>p.status==="pending");const approved=products.filter(p=>p.status==="approved");const rejected=products.filter(p=>p.status==="rejected");const shown=tab==="pending"?pending:tab==="approved"?approved:rejected;const approve=id=>setProducts(p=>p.map(x=>x.id===id?{...x,status:"approved"}:x));const reject=id=>setProducts(p=>p.map(x=>x.id===id?{...x,status:"rejected"}:x));const lowScore=users.filter(u=>u.role!=="admin").map(u=>({user:u,score:sellerScore(u.id,reviews)})).filter(x=>x.score!==null&&x.score<3).sort((a,b)=>a.score-b.score);return(<div style={{position:"fixed",inset:0,background:C.navy,zIndex:500,overflowY:"auto"}}><div style={{background:C.navy2,padding:"0 26px",height:60,display:"flex",alignItems:"center",justifyContent:"space-between",borderBottom:"1px solid rgba(255,255,255,0.08)",position:"sticky",top:0,zIndex:10}}><div style={{display:"flex",alignItems:"center",gap:9}}><span style={{fontSize:20}}>🛡️</span><span style={{color:"white",fontWeight:900,fontSize:17}}>Panel Admin</span><span style={{background:C.yellow,color:C.navy,fontSize:11,fontWeight:800,padding:"2px 11px",borderRadius:50}}>SchoolBag</span></div><button onClick={onClose} style={{background:C.gray,border:"none",color:"white",borderRadius:50,padding:"7px 16px",cursor:"pointer",fontSize:13,fontWeight:700,fontFamily:"inherit"}}>← Salir</button></div><div style={{padding:"22px 26px",display:"flex",gap:14,flexWrap:"wrap"}}>{[[C.yellow,"⏳",pending.length,"Pendientes"],[C.green,"✅",approved.length,"Aprobadas"],[C.red,"❌",rejected.length,"Rechazadas"],[C.blue,"👥",users.filter(u=>u.role!=="admin").length,"Usuarios"],[C.orange,"⚠️",lowScore.length,"Alertas"]].map(([col,ic,v,lb])=>(<div key={lb} style={{background:C.navy2,borderRadius:18,padding:"16px 20px",flex:1,minWidth:90,border:"1px solid rgba(255,255,255,0.07)"}}><div style={{fontSize:20,marginBottom:3}}>{ic}</div><div style={{fontSize:24,fontWeight:900,color:col}}>{v}</div><div style={{fontSize:11,color:"rgba(255,255,255,0.4)"}}>{lb}</div></div>))}</div>{lowScore.length>0&&(<div style={{padding:"0 26px 22px"}}><div style={{background:`${C.orange}18`,border:`1px solid ${C.orange}44`,borderRadius:16,padding:"16px 18px"}}><div style={{color:C.orange,fontWeight:900,fontSize:14,marginBottom:10}}>⚠️ Vendedores con calificación baja</div>{lowScore.map(({user,score})=>(<div key={user.id} style={{display:"flex",alignItems:"center",gap:10,marginBottom:9,background:C.gray,borderRadius:12,padding:"10px 14px"}}><Ava user={user} size={34}/><div style={{flex:1}}><div style={{fontWeight:800,color:"white",fontSize:13}}>{user.nombre}</div><ScorePill score={score}/></div><button onClick={()=>setUsers(p=>p.map(u=>u.id===user.id?{...u,suspended:true}:u))} style={{background:score<2?C.red:C.orange,color:"white",border:"none",borderRadius:50,padding:"6px 13px",cursor:"pointer",fontSize:12,fontWeight:800,fontFamily:"inherit"}}>{score<2?"Suspender":"Advertir"}</button></div>))}</div></div>)}<div style={{padding:"0 26px 40px"}}><div style={{display:"flex",gap:7,marginBottom:20}}>{[["pending","⏳ Pendientes",pending.length,C.yellow],["approved","✅ Aprobadas",approved.length,C.green],["rejected","❌ Rechazadas",rejected.length,C.red]].map(([t,lb,cnt,col])=>(<button key={t} onClick={()=>setTab(t)} style={{padding:"8px 18px",border:`2px solid ${tab===t?col:"rgba(255,255,255,0.12)"}`,background:tab===t?col:"transparent",color:tab===t?C.navy:"rgba(255,255,255,0.55)",borderRadius:50,cursor:"pointer",fontWeight:800,fontSize:12,fontFamily:"inherit"}}>{lb} ({cnt})</button>))}</div>{shown.length===0?(<div style={{textAlign:"center",padding:55,color:"rgba(255,255,255,0.25)"}}><div style={{fontSize:45}}>📭</div><div style={{fontSize:15,marginTop:11}}>Sin publicaciones</div></div>):(<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>{shown.map(p=>{const seller=getUser(p.vendedorId,users);const cat=getCat(p.categoria);return(<div key={p.id} style={{background:C.navy2,borderRadius:18,overflow:"hidden",border:"1px solid rgba(255,255,255,0.07)"}}><div style={{height:135,background:cat.light,display:"flex",overflow:"hidden"}}>{p.fotos?.map((f,i)=><img key={i} src={f} alt="" style={{flex:1,objectFit:"cover",height:"100%"}}/>)}{(!p.fotos||!p.fotos.length)&&<div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",fontSize:45}}>{cat.emoji}</div>}</div><div style={{padding:"13px 15px"}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}><span style={{fontWeight:800,fontSize:13,color:"white"}}>{p.articulo}</span><span style={{fontWeight:900,color:C.yellow,fontSize:13}}>{fmt(p.precio)}</span></div><EstadoBadge estadoId={p.estado}/><p style={{fontSize:12,color:"rgba(255,255,255,0.45)",margin:"7px 0 9px",lineHeight:1.4}}>{p.descripcion}</p><div style={{display:"flex",alignItems:"center",gap:7,marginBottom:11,background:C.gray,borderRadius:11,padding:"7px 11px"}}><Ava user={seller} size={24}/><span style={{fontSize:12,color:"white",fontWeight:700}}>{seller?.nombre}</span></div>{tab==="pending"&&(<div style={{display:"flex",gap:7}}><button onClick={()=>approve(p.id)} style={{flex:1,background:C.green,color:"white",border:"none",borderRadius:11,padding:"9px",cursor:"pointer",fontWeight:800,fontSize:12,fontFamily:"inherit"}}>✅ Aprobar</button><button onClick={()=>reject(p.id)} style={{flex:1,background:C.red,color:"white",border:"none",borderRadius:11,padding:"9px",cursor:"pointer",fontWeight:800,fontSize:12,fontFamily:"inherit"}}>❌ Rechazar</button></div>)}{tab!=="pending"&&<div style={{textAlign:"center",padding:"8px",borderRadius:11,background:tab==="approved"?"rgba(93,187,99,0.15)":"rgba(224,58,47,0.15)",color:tab==="approved"?C.green:C.red,fontWeight:800,fontSize:12}}>{tab==="approved"?"✅ Aprobada":"❌ Rechazada"}</div>}</div></div>);})}</div>)}</div></div>);}
 
-function Nav({me,cart,onHome,onProfile,onCart,onChat,onPub,onAuth,onAdmin,onWallet,chatOpen}){return(<nav style={{background:C.navy2,padding:"0 22px",height:62,display:"flex",alignItems:"center",justifyContent:"space-between",position:"sticky",top:0,zIndex:100,borderBottom:"1px solid rgba(255,255,255,0.08)",boxShadow:"0 4px 20px rgba(0,0,0,.3)"}}><div style={{display:"flex",alignItems:"center",gap:8,cursor:"pointer"}} onClick={onHome}><span style={{fontSize:24}}>🎒</span><span style={{fontWeight:900,fontSize:20,color:"white"}}>SchoolBag</span></div><div style={{display:"flex",gap:8,alignItems:"center"}}>{me?.role==="admin"&&<button onClick={onAdmin} style={{background:C.yellow,color:C.navy,border:"none",borderRadius:50,padding:"7px 14px",cursor:"pointer",fontSize:12,fontWeight:800,fontFamily:"inherit"}}>🛡️ Admin</button>}{me&&me.role!=="admin"&&<button onClick={onWallet} style={{background:C.gray,border:`1px solid ${C.green}44`,color:C.green,borderRadius:50,padding:"7px 14px",cursor:"pointer",fontSize:12,fontWeight:800,fontFamily:"inherit"}}>💰 {fmt(me.walletBalance)}</button>}{me&&<button onClick={onPub} style={{background:C.red,color:"white",border:"none",borderRadius:50,padding:"8px 18px",fontWeight:800,cursor:"pointer",fontSize:13,fontFamily:"inherit"}}>+ Publicar</button>}{me&&<button onClick={onChat} style={{background:chatOpen?C.blue:"rgba(255,255,255,0.1)",border:"none",color:"white",borderRadius:50,padding:"8px 14px",cursor:"pointer",fontSize:13}}>💬</button>}<button onClick={onCart} style={{background:"rgba(255,255,255,0.1)",border:"none",color:"white",borderRadius:50,padding:"8px 14px",cursor:"pointer",fontSize:13,fontWeight:800,position:"relative"}}>🛍️{cart.length>0&&<span style={{position:"absolute",top:-4,right:-4,background:C.red,color:"white",fontSize:9,fontWeight:800,width:17,height:17,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center"}}>{cart.length}</span>}</button>{me?(<div onClick={onProfile} style={{display:"flex",alignItems:"center",gap:7,cursor:"pointer",background:"rgba(255,255,255,0.08)",padding:"5px 14px 5px 5px",borderRadius:50,border:"1px solid rgba(255,255,255,0.1)"}}><Ava user={me} size={26}/><span style={{color:"white",fontSize:12,fontWeight:800}}>Mi perfil</span></div>):(<button onClick={onAuth} style={{...btnP(C.red),fontSize:13,padding:"9px 20px"}}>Ingresar</button>)}</div></nav>);}
+// ── NAV ────────────────────────────────────────────────────────────────────
+function Nav({me,cart,onHome,onProfile,onCart,onChat,onPub,onAuth,onAdmin,onWallet,chatOpen}){return(<nav style={{background:C.navy2,padding:"0 20px",height:60,display:"flex",alignItems:"center",justifyContent:"space-between",position:"sticky",top:0,zIndex:100,borderBottom:"1px solid rgba(255,255,255,0.08)",boxShadow:"0 4px 20px rgba(0,0,0,.3)"}}><div style={{display:"flex",alignItems:"center",gap:7,cursor:"pointer"}} onClick={onHome}><span style={{fontSize:23}}>🎒</span><span style={{fontWeight:900,fontSize:19,color:"white"}}>SchoolBag</span></div><div style={{display:"flex",gap:7,alignItems:"center"}}>{me?.role==="admin"&&<button onClick={onAdmin} style={{background:C.yellow,color:C.navy,border:"none",borderRadius:50,padding:"6px 13px",cursor:"pointer",fontSize:12,fontWeight:800,fontFamily:"inherit"}}>🛡️ Admin</button>}{me&&me.role!=="admin"&&<button onClick={onWallet} style={{background:C.gray,border:`1px solid ${C.green}44`,color:C.green,borderRadius:50,padding:"6px 13px",cursor:"pointer",fontSize:12,fontWeight:800,fontFamily:"inherit"}}>💰 {fmt(me.walletBalance)}</button>}{me&&<button onClick={onPub} style={{background:C.red,color:"white",border:"none",borderRadius:50,padding:"7px 16px",fontWeight:800,cursor:"pointer",fontSize:13,fontFamily:"inherit"}}>+ Publicar</button>}{me&&<button onClick={onChat} style={{background:chatOpen?C.blue:"rgba(255,255,255,0.1)",border:"none",color:"white",borderRadius:50,padding:"7px 13px",cursor:"pointer",fontSize:13}}>💬</button>}<button onClick={onCart} style={{background:"rgba(255,255,255,0.1)",border:"none",color:"white",borderRadius:50,padding:"7px 13px",cursor:"pointer",fontSize:13,fontWeight:800,position:"relative"}}>🛍️{cart.length>0&&<span style={{position:"absolute",top:-4,right:-4,background:C.red,color:"white",fontSize:9,fontWeight:800,width:17,height:17,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center"}}>{cart.length}</span>}</button>{me?(<div onClick={onProfile} style={{display:"flex",alignItems:"center",gap:6,cursor:"pointer",background:"rgba(255,255,255,0.08)",padding:"4px 13px 4px 4px",borderRadius:50,border:"1px solid rgba(255,255,255,0.1)"}}><Ava user={me} size={24}/><span style={{color:"white",fontSize:12,fontWeight:800}}>Mi perfil</span></div>):(<button onClick={onAuth} style={{...btnP(C.red),fontSize:13,padding:"8px 18px"}}>Ingresar</button>)}</div></nav>);}
 
-function Landing({onExplore,onAuth}){return(<div style={{background:C.navy,minHeight:"100vh",overflow:"hidden"}}><div style={{minHeight:"100vh",position:"relative",overflow:"hidden",background:"linear-gradient(160deg,#3a2a4a 0%,#2d4a5a 35%,#1e3a4a 60%,#2a3060 100%)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"48px 28px 40px",textAlign:"center"}}><div style={{position:"absolute",top:-100,left:-100,width:280,height:280,borderRadius:"50%",background:"rgba(100,85,20,0.5)",filter:"blur(3px)",pointerEvents:"none"}}/><div style={{position:"absolute",top:-70,right:-80,width:240,height:240,borderRadius:"50%",background:"rgba(30,80,100,0.55)",filter:"blur(3px)",pointerEvents:"none"}}/><div style={{position:"absolute",bottom:-90,left:-60,width:260,height:260,borderRadius:"50%",background:"rgba(50,70,120,0.45)",filter:"blur(4px)",pointerEvents:"none"}}/><div style={{position:"absolute",bottom:50,right:-70,width:200,height:200,borderRadius:"50%",background:"rgba(90,45,70,0.4)",filter:"blur(4px)",pointerEvents:"none"}}/><div style={{fontSize:90,marginBottom:10,filter:"drop-shadow(0 12px 32px rgba(0,0,0,0.5))",lineHeight:1}}>🎒</div><h1 style={{fontSize:"clamp(56px,15vw,92px)",fontWeight:900,margin:"0 0 14px",lineHeight:1,color:"white",textShadow:"0 4px 28px rgba(0,0,0,0.4)"}}>SchoolBag</h1><p style={{fontSize:"clamp(15px,3.5vw,18px)",color:"rgba(255,255,255,0.80)",margin:"0 0 40px",fontWeight:600,maxWidth:360,lineHeight:1.55}}>Conectando familias, compartiendo uniformes y más en comunidad</p><div style={{display:"flex",flexDirection:"column",gap:14,width:"100%",maxWidth:340}}><button onClick={()=>onAuth("register")} style={{background:C.red,color:"white",border:"none",borderRadius:50,padding:"17px 28px",fontWeight:800,cursor:"pointer",fontSize:17,fontFamily:"inherit",boxShadow:"0 6px 28px rgba(224,58,47,0.5)"}}>Registrarme</button><div style={{fontSize:12,fontWeight:800,color:"rgba(255,255,255,0.5)",letterSpacing:1.4,textTransform:"uppercase"}}>Ya tienes cuenta</div><button onClick={()=>onAuth("login")} style={{background:"white",color:C.red,border:`2px solid ${C.red}`,borderRadius:50,padding:"16px 28px",fontWeight:800,cursor:"pointer",fontSize:17,fontFamily:"inherit"}}>Ingresar</button></div><button onClick={onExplore} style={{marginTop:22,background:"transparent",border:"none",color:"rgba(255,255,255,0.50)",cursor:"pointer",fontSize:14,textDecoration:"underline",fontFamily:"inherit"}}>Explorar sin cuenta →</button></div><div style={{padding:"44px 28px 50px",background:C.navy}}><h2 style={{textAlign:"center",fontSize:23,fontWeight:900,color:"white",marginBottom:4}}>¿Por qué SchoolBag?</h2><p style={{textAlign:"center",fontSize:15,color:"rgba(255,255,255,0.5)",marginBottom:28,marginTop:6}}>Todo lo que tu familia necesita, <span style={{color:C.yellow,fontWeight:800}}>en un solo lugar</span></p><div style={{display:"flex",flexWrap:"wrap",justifyContent:"center",gap:10,marginBottom:28}}>{[["👕","Uniformes",C.yellow],["⚽","Club",C.green],["📚","Libros",C.blue],["🎭","Disfraces","#9B59B6"]].map(([ic,lb,col])=>(<div key={lb} style={{background:col,color:"white",padding:"10px 22px",borderRadius:50,fontWeight:800,fontSize:14,display:"flex",alignItems:"center",gap:8,boxShadow:`0 4px 16px ${col}55`}}>{ic} {lb}</div>))}</div><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",gap:12,marginBottom:32}}>{[["🛒",C.yellow,"Compra","A precios accesibles"],["🔄",C.blue,"Vende","Lo que ya no usas"],["❤️",C.red,"Dona","Ayuda a otras familias"],["🌱",C.green,"Planeta","Economía circular"]].map(([ic,col,t,d])=>(<div key={t} style={{background:C.navy2,borderRadius:20,padding:"20px 14px",border:"1px solid rgba(255,255,255,0.07)",textAlign:"center"}}><div style={{fontSize:26,marginBottom:8}}>{ic}</div><div style={{fontWeight:900,fontSize:14,color:col,marginBottom:4}}>{t}</div><div style={{fontSize:12,color:"rgba(255,255,255,0.4)"}}>{d}</div></div>))}</div><div style={{textAlign:"center"}}><button onClick={()=>onAuth("register")} style={{background:C.yellow,color:C.navy,border:"none",borderRadius:50,padding:"14px 36px",fontWeight:900,cursor:"pointer",fontSize:16,fontFamily:"inherit"}}>¡Únete gratis hoy! →</button><div style={{fontSize:11,color:"rgba(255,255,255,0.25)",marginTop:12}}>Marca registrada INAPI N°1647829</div></div></div></div>);}
+// ── LANDING ────────────────────────────────────────────────────────────────
+function Landing({onExplore,onAuth}){return(<div style={{background:C.navy,minHeight:"100vh",overflow:"hidden"}}><div style={{minHeight:"100vh",position:"relative",overflow:"hidden",background:"linear-gradient(160deg,#3a2a4a 0%,#2d4a5a 35%,#1e3a4a 60%,#2a3060 100%)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"48px 28px 40px",textAlign:"center"}}><div style={{position:"absolute",top:-100,left:-100,width:280,height:280,borderRadius:"50%",background:"rgba(100,85,20,0.5)",filter:"blur(3px)",pointerEvents:"none"}}/><div style={{position:"absolute",top:-70,right:-80,width:240,height:240,borderRadius:"50%",background:"rgba(30,80,100,0.55)",filter:"blur(3px)",pointerEvents:"none"}}/><div style={{position:"absolute",bottom:-90,left:-60,width:260,height:260,borderRadius:"50%",background:"rgba(50,70,120,0.45)",filter:"blur(4px)",pointerEvents:"none"}}/><div style={{position:"absolute",bottom:50,right:-70,width:200,height:200,borderRadius:"50%",background:"rgba(90,45,70,0.4)",filter:"blur(4px)",pointerEvents:"none"}}/><div style={{fontSize:88,marginBottom:9,filter:"drop-shadow(0 12px 32px rgba(0,0,0,0.5))",lineHeight:1}}>🎒</div><h1 style={{fontSize:"clamp(54px,14vw,88px)",fontWeight:900,margin:"0 0 12px",lineHeight:1,color:"white",textShadow:"0 4px 28px rgba(0,0,0,0.4)"}}>SchoolBag</h1><p style={{fontSize:"clamp(14px,3.5vw,17px)",color:"rgba(255,255,255,0.78)",margin:"0 0 38px",fontWeight:600,maxWidth:350,lineHeight:1.55}}>Conectando familias, compartiendo uniformes y más en comunidad</p><div style={{display:"flex",flexDirection:"column",gap:13,width:"100%",maxWidth:330}}><button onClick={()=>onAuth("register")} style={{background:C.red,color:"white",border:"none",borderRadius:50,padding:"16px 28px",fontWeight:800,cursor:"pointer",fontSize:17,fontFamily:"inherit",boxShadow:"0 6px 28px rgba(224,58,47,0.5)"}}>Registrarme</button><div style={{fontSize:11,fontWeight:800,color:"rgba(255,255,255,0.45)",letterSpacing:1.3,textTransform:"uppercase"}}>Ya tienes cuenta</div><button onClick={()=>onAuth("login")} style={{background:"white",color:C.red,border:`2px solid ${C.red}`,borderRadius:50,padding:"15px 28px",fontWeight:800,cursor:"pointer",fontSize:17,fontFamily:"inherit"}}>Ingresar</button></div><button onClick={onExplore} style={{marginTop:20,background:"transparent",border:"none",color:"rgba(255,255,255,0.45)",cursor:"pointer",fontSize:13,textDecoration:"underline",fontFamily:"inherit"}}>Explorar sin cuenta →</button></div><div style={{padding:"40px 28px 48px",background:C.navy}}><h2 style={{textAlign:"center",fontSize:22,fontWeight:900,color:"white",marginBottom:3}}>¿Por qué SchoolBag?</h2><p style={{textAlign:"center",fontSize:14,color:"rgba(255,255,255,0.45)",marginBottom:26,marginTop:5}}>Todo lo que tu familia necesita, <span style={{color:C.yellow,fontWeight:800}}>en un solo lugar</span></p><div style={{display:"flex",flexWrap:"wrap",justifyContent:"center",gap:9,marginBottom:26}}>{[["👕","Uniformes",C.yellow],["⚽","Club",C.green],["👟","Zapatos",C.orange],["📚","Libros",C.blue]].map(([ic,lb,col])=>(<div key={lb} style={{background:col,color:col===C.yellow?C.navy:"white",padding:"9px 20px",borderRadius:50,fontWeight:800,fontSize:13,display:"flex",alignItems:"center",gap:7,boxShadow:`0 4px 14px ${col}55`}}>{ic} {lb}</div>))}</div><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(140px,1fr))",gap:11,marginBottom:30}}>{[["🛒",C.yellow,"Compra","A precios accesibles"],["🔄",C.blue,"Vende","Lo que ya no usas"],["❤️",C.red,"Dona","Ayuda a otras familias"],["🌱",C.green,"Planeta","Economía circular"]].map(([ic,col,t,d])=>(<div key={t} style={{background:C.navy2,borderRadius:18,padding:"18px 13px",border:"1px solid rgba(255,255,255,0.07)",textAlign:"center"}}><div style={{fontSize:24,marginBottom:7}}>{ic}</div><div style={{fontWeight:900,fontSize:13,color:col,marginBottom:3}}>{t}</div><div style={{fontSize:11,color:"rgba(255,255,255,0.38)"}}>{d}</div></div>))}</div><div style={{textAlign:"center"}}><button onClick={()=>onAuth("register")} style={{background:C.yellow,color:C.navy,border:"none",borderRadius:50,padding:"13px 34px",fontWeight:900,cursor:"pointer",fontSize:15,fontFamily:"inherit"}}>¡Únete gratis hoy! →</button><div style={{fontSize:11,color:"rgba(255,255,255,0.22)",marginTop:11}}>Marca registrada INAPI N°1647829</div></div></div></div>);}
 
+// ── MAIN APP ───────────────────────────────────────────────────────────────
 function SchoolBag(){
   const[users,setUsers]=useState(SEED_USERS);
   const[products,setProducts]=useState([]);
@@ -378,16 +543,36 @@ function SchoolBag(){
     return true;
   };
 
-  const handleSaveProfile=updatedUser=>{
-    setUsers(p=>p.map(u=>u.id===updatedUser.id?updatedUser:u));
-    setMe(updatedUser);
+  const handleSaveProfile=updated=>{
+    setUsers(p=>p.map(u=>u.id===updated.id?updated:u));
+    setMe(updated);
     showT("✅ Perfil actualizado");
   };
 
+  const handleLogout=()=>{
+    setMe(null);setView("landing");setCart([]);
+    setShowEditProfile(false);setChatOpen(false);
+    showT("👋 Sesión cerrada");
+  };
+
+  const handleDeleteAccount=()=>{
+    setUsers(p=>p.filter(u=>u.id!==me.id));
+    setProducts(p=>p.filter(p=>p.vendedorId!==me.id));
+    setMe(null);setView("landing");setCart([]);
+    setShowEditProfile(false);
+    showT("Cuenta eliminada");
+  };
+
   const handlePublish=(form,fotos)=>{
-    const np={...form,id:genId(),vendedorId:me.id,precio:form.tipo==="Donación"?0:Number(form.precio),colegio:me.colegio,club:form.categoria==="club"?form.club:"",fotos,status:"pending",fecha:new Date().toISOString().slice(0,10)};
+    const np={
+      ...form,id:genId(),vendedorId:me.id,
+      precio:form.tipo==="Donación"?0:Number(form.precio),
+      colegio:form.categoria==="club"?"":form.colegio,
+      club:form.categoria==="club"?form.club:"",
+      fotos,status:"pending",fecha:new Date().toISOString().slice(0,10)
+    };
     setProducts(p=>[np,...p]);setShowPub(false);
-    showT("📋 Publicación enviada — la revisamos en 24-48h");
+    showT("📋 Publicación enviada — revisamos en 24-48h");
   };
 
   const handlePaySuccess=(items,total)=>{
@@ -411,18 +596,22 @@ function SchoolBag(){
   const meSync=me?users.find(u=>u.id===me.id)||me:null;
   const visibleProducts=products.filter(p=>p.status==="approved"||(meSync&&p.vendedorId===meSync.id));
   const featuredSellers=new Set(users.filter(u=>{const s=sellerScore(u.id,reviews);return s&&s>=4.5;}).map(u=>u.id));
-
   const filtered=visibleProducts.filter(p=>{
     const mS=!search||p.articulo.toLowerCase().includes(search.toLowerCase())||p.descripcion.toLowerCase().includes(search.toLowerCase());
-    const mC=!searchCol||p.colegio.toLowerCase().includes(searchCol.toLowerCase());
+    const mC=!searchCol||p.colegio?.toLowerCase().includes(searchCol.toLowerCase());
     const mCl=!searchClub||(p.club&&p.club.toLowerCase().includes(searchClub.toLowerCase()));
-    return mS&&mC&&(filterCat==="all"||p.categoria===filterCat)&&(filterTipo==="all"||p.tipo===filterTipo)&&(!searchClub||mCl);
+    return mS&&(searchClub?mCl:mC)&&(filterCat==="all"||p.categoria===filterCat)&&(filterTipo==="all"||p.tipo===filterTipo);
   }).sort((a,b)=>(featuredSellers.has(b.vendedorId)?1:0)-(featuredSellers.has(a.vendedorId)?1:0));
 
-  if(showAdmin&&meSync?.role==="admin")return(<><Toast msg={toast}/><AdminPanel products={products} setProducts={setProducts} users={users} setUsers={setUsers} reviews={reviews} onClose={()=>{setShowAdmin(false);setView("home");}}/></>);
-  if(view==="landing")return(<><Toast msg={toast}/><Landing onExplore={()=>setView("home")} onAuth={(t)=>{setAuthTab(t||"register");setShowAuth(true);}}/>{showAuth&&<AuthModal onClose={()=>setShowAuth(false)} onLogin={handleLogin} onRegister={handleRegister} initTab={authTab}/>}</>);
+  const openAuth=(t)=>{setAuthTab(t||"register");setShowAuth(true);};
 
-  // PROFILE VIEW
+  // ADMIN
+  if(showAdmin&&meSync?.role==="admin")return(<><Toast msg={toast}/><AdminPanel products={products} setProducts={setProducts} users={users} setUsers={setUsers} reviews={reviews} onClose={()=>{setShowAdmin(false);setView("home");}}/></>);
+
+  // LANDING
+  if(view==="landing")return(<><Toast msg={toast}/><Landing onExplore={()=>setView("home")} onAuth={t=>openAuth(t)}/>{showAuth&&<AuthModal onClose={()=>setShowAuth(false)} onLogin={handleLogin} onRegister={handleRegister} initTab={authTab}/>}</>);
+
+  // PROFILE
   if((view==="seller"&&sellerU)||(view==="myprofile"&&meSync)){
     const pU=view==="myprofile"?meSync:sellerU;
     const mine=products.filter(p=>p.vendedorId===pU.id);
@@ -431,29 +620,32 @@ function SchoolBag(){
     const pRevs=reviews.filter(r=>r.vendedorId===pU.id);
     const reviewableOrders=orders.filter(o=>o.compradorId===meSync?.id&&o.vendedorId===pU.id&&!o.reviewed);
     return(<div style={{background:C.navy,minHeight:"100vh"}}><Toast msg={toast}/>
-      <Nav me={meSync} cart={cart} onHome={()=>setView("home")} onProfile={()=>setView("myprofile")} onCart={()=>setShowCart(true)} onChat={()=>setChatOpen(!chatOpen)} onPub={()=>{if(!meSync){setShowAuth(true);return;}setShowPub(true);}} onAuth={()=>setShowAuth(true)} onAdmin={()=>setShowAdmin(true)} onWallet={()=>setShowWallet(true)} chatOpen={chatOpen}/>
-      <div style={{background:`linear-gradient(180deg,${C.navy2},${C.navy})`,padding:"24px 28px 0",borderBottom:"1px solid rgba(255,255,255,0.07)"}}>
-        <button onClick={()=>setView("home")} style={{background:C.gray,border:"none",color:"rgba(255,255,255,0.7)",padding:"7px 16px",borderRadius:50,cursor:"pointer",fontSize:13,marginBottom:20,fontFamily:"inherit"}}>← Volver</button>
-        <div style={{display:"flex",gap:18,alignItems:"flex-start",paddingBottom:20}}>
-          <Ava user={pU} size={70}/>
+      <Nav me={meSync} cart={cart} onHome={()=>setView("home")} onProfile={()=>setView("myprofile")} onCart={()=>setShowCart(true)} onChat={()=>setChatOpen(!chatOpen)} onPub={()=>{if(!meSync){openAuth("register");return;}setShowPub(true);}} onAuth={()=>openAuth("login")} onAdmin={()=>setShowAdmin(true)} onWallet={()=>setShowWallet(true)} chatOpen={chatOpen}/>
+      <div style={{background:`linear-gradient(180deg,${C.navy2},${C.navy})`,padding:"22px 26px 0",borderBottom:"1px solid rgba(255,255,255,0.07)"}}>
+        <button onClick={()=>setView("home")} style={{background:C.gray,border:"none",color:"rgba(255,255,255,0.65)",padding:"6px 15px",borderRadius:50,cursor:"pointer",fontSize:12,marginBottom:18,fontFamily:"inherit"}}>← Volver</button>
+        <div style={{display:"flex",gap:16,alignItems:"flex-start",paddingBottom:18}}>
+          <Ava user={pU} size={66}/>
           <div style={{flex:1}}>
-            <h2 style={{color:"white",margin:"0 0 4px",fontSize:22,fontWeight:900}}>{pU.nombre}</h2>
-            <div style={{fontSize:13,color:"rgba(255,255,255,0.5)",marginBottom:4}}>🏫 {pU.colegio}</div>
-            {pU.club&&<div style={{fontSize:13,color:"rgba(255,255,255,0.5)",marginBottom:6}}>⚽ {pU.club}</div>}
+            <h2 style={{color:"white",margin:"0 0 3px",fontSize:21,fontWeight:900}}>{pU.nombre}</h2>
+            <div style={{fontSize:12,color:"rgba(255,255,255,0.4)",marginBottom:6}}>{pU.email}</div>
             <ScorePill score={score}/>
           </div>
-          {isOwn&&<button onClick={()=>setShowEditProfile(true)} style={{background:C.gray,border:"1px solid rgba(255,255,255,0.15)",color:"white",borderRadius:50,padding:"9px 18px",cursor:"pointer",fontSize:13,fontWeight:700,fontFamily:"inherit"}}>✏️ Editar</button>}
-          {isOwn&&<button onClick={()=>setShowPub(true)} style={{...btnP(C.red),fontSize:13,padding:"10px 18px"}}>+ Publicar</button>}
+          {isOwn&&(
+            <div style={{display:"flex",gap:7}}>
+              <button onClick={()=>setShowEditProfile(true)} style={{background:C.gray,border:"1px solid rgba(255,255,255,0.12)",color:"white",borderRadius:50,padding:"8px 16px",cursor:"pointer",fontSize:12,fontWeight:700,fontFamily:"inherit"}}>✏️ Editar</button>
+              <button onClick={()=>setShowPub(true)} style={{...btnP(C.red),fontSize:12,padding:"8px 16px"}}>+ Publicar</button>
+            </div>
+          )}
         </div>
-        {!isOwn&&reviewableOrders.length>0&&(<div style={{background:`${C.yellow}18`,border:`1px solid ${C.yellow}44`,borderRadius:16,padding:"12px 16px",marginBottom:16,display:"flex",alignItems:"center",justifyContent:"space-between"}}><span style={{fontSize:13,color:C.yellow,fontWeight:700}}>⭐ Tienes una compra pendiente de calificar</span><button onClick={()=>setReviewData({order:reviewableOrders[0],vendedor:pU})} style={{...btnP(C.yellow),fontSize:12,padding:"8px 16px"}}>Calificar</button></div>)}
-        {pRevs.length>0&&(<div style={{paddingBottom:16,borderTop:"1px solid rgba(255,255,255,0.07)",paddingTop:14}}>{pRevs.slice(-3).reverse().map(r=>{const comp=getUser(r.compradorId,users);return(<div key={r.id} style={{display:"flex",gap:10,marginBottom:10,background:C.gray,borderRadius:14,padding:"10px 14px"}}><Ava user={comp} size={30}/><div style={{flex:1}}><div style={{display:"flex",gap:8,alignItems:"center",marginBottom:3}}><Stars value={r.stars} size={13}/><span style={{fontSize:11,color:"rgba(255,255,255,0.4)"}}>{comp?.nombre.split(" ")[0]} · {r.fecha}</span></div>{r.comment&&<div style={{fontSize:12,color:"rgba(255,255,255,0.6)",lineHeight:1.4}}>{r.comment}</div>}</div></div>);})}</div>)}
-        <div style={{display:"flex",gap:28,paddingBottom:14,borderTop:"1px solid rgba(255,255,255,0.07)",paddingTop:14}}>{[[C.yellow,"📦",mine.length,"artículos"],[C.green,"✅",mine.filter(p=>p.status==="approved").length,"aprobados"],[C.blue,"⏳",mine.filter(p=>p.status==="pending").length,"en revisión"]].map(([col,ic,v,lb])=>(<div key={lb}><div style={{fontSize:15,color:"white"}}>{ic} <strong style={{color:col}}>{v}</strong></div><div style={{fontSize:11,color:"rgba(255,255,255,0.35)"}}>{lb}</div></div>))}</div>
+        {!isOwn&&reviewableOrders.length>0&&(<div style={{background:`${C.yellow}18`,border:`1px solid ${C.yellow}44`,borderRadius:14,padding:"11px 14px",marginBottom:14,display:"flex",alignItems:"center",justifyContent:"space-between"}}><span style={{fontSize:13,color:C.yellow,fontWeight:700}}>⭐ Tienes una compra pendiente de calificar</span><button onClick={()=>setReviewData({order:reviewableOrders[0],vendedor:pU})} style={{...btnP(C.yellow),fontSize:11,padding:"7px 14px"}}>Calificar</button></div>)}
+        {pRevs.length>0&&(<div style={{paddingBottom:14,borderTop:"1px solid rgba(255,255,255,0.07)",paddingTop:12}}>{pRevs.slice(-3).reverse().map(r=>{const comp=getUser(r.compradorId,users);return(<div key={r.id} style={{display:"flex",gap:9,marginBottom:9,background:C.gray,borderRadius:13,padding:"9px 13px"}}><Ava user={comp} size={28}/><div style={{flex:1}}><div style={{display:"flex",gap:7,alignItems:"center",marginBottom:2}}><Stars value={r.stars} size={12}/><span style={{fontSize:10,color:"rgba(255,255,255,0.35)"}}>{comp?.nombre.split(" ")[0]} · {r.fecha}</span></div>{r.comment&&<div style={{fontSize:12,color:"rgba(255,255,255,0.55)",lineHeight:1.4}}>{r.comment}</div>}</div></div>);})}</div>)}
+        <div style={{display:"flex",gap:26,paddingBottom:13,borderTop:"1px solid rgba(255,255,255,0.07)",paddingTop:12}}>{[[C.yellow,"📦",mine.length,"artículos"],[C.green,"✅",mine.filter(p=>p.status==="approved").length,"aprobados"],[C.blue,"⏳",mine.filter(p=>p.status==="pending").length,"en revisión"]].map(([col,ic,v,lb])=>(<div key={lb}><div style={{fontSize:14,color:"white"}}>{ic} <strong style={{color:col}}>{v}</strong></div><div style={{fontSize:10,color:"rgba(255,255,255,0.32)"}}>{lb}</div></div>))}</div>
       </div>
-      <div style={{padding:"20px 28px 60px",display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(220px,1fr))",gap:16}}>
-        {mine.map(p=>(<div key={p.id} style={{position:"relative"}}><PCard product={p} users={[pU]} reviews={reviews} onView={setDetail} onCart={addCart} inCart={cart.includes(p.id)} featured={featuredSellers.has(p.vendedorId)}/>{p.status==="pending"&&<div style={{position:"absolute",top:10,right:10,background:C.yellow,color:C.navy,fontSize:10,fontWeight:800,padding:"3px 10px",borderRadius:50}}>⏳ En revisión</div>}{p.status==="rejected"&&<div style={{position:"absolute",top:10,right:10,background:C.red,color:"white",fontSize:10,fontWeight:800,padding:"3px 10px",borderRadius:50}}>❌ Rechazada</div>}</div>))}
-        {mine.length===0&&<div style={{gridColumn:"1/-1",textAlign:"center",padding:60,color:"rgba(255,255,255,0.25)"}}><div style={{fontSize:48}}>📦</div><div style={{fontSize:16,marginTop:12}}>{isOwn?"¡Publica tu primer artículo!":"Sin publicaciones"}</div></div>}
+      <div style={{padding:"18px 26px 60px",display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(210px,1fr))",gap:15}}>
+        {mine.map(p=>(<div key={p.id} style={{position:"relative"}}><PCard product={p} users={[pU]} reviews={reviews} onView={setDetail} onCart={addCart} inCart={cart.includes(p.id)} featured={featuredSellers.has(p.vendedorId)}/>{p.status==="pending"&&<div style={{position:"absolute",top:9,right:9,background:C.yellow,color:C.navy,fontSize:10,fontWeight:800,padding:"2px 9px",borderRadius:50}}>⏳ Revisión</div>}{p.status==="rejected"&&<div style={{position:"absolute",top:9,right:9,background:C.red,color:"white",fontSize:10,fontWeight:800,padding:"2px 9px",borderRadius:50}}>❌ Rechazada</div>}</div>))}
+        {mine.length===0&&<div style={{gridColumn:"1/-1",textAlign:"center",padding:55,color:"rgba(255,255,255,0.22)"}}><div style={{fontSize:45}}>📦</div><div style={{fontSize:15,marginTop:11}}>{isOwn?"¡Publica tu primer artículo!":"Sin publicaciones"}</div></div>}
       </div>
-      {showEditProfile&&meSync&&<EditProfileModal user={meSync} onClose={()=>setShowEditProfile(false)} onSave={handleSaveProfile}/>}
+      {showEditProfile&&meSync&&<EditProfileModal user={meSync} onClose={()=>setShowEditProfile(false)} onSave={handleSaveProfile} onLogout={handleLogout} onDelete={handleDeleteAccount}/>}
       {detail&&<DetailModal product={detail} users={users} reviews={reviews} currentUser={meSync} onClose={()=>setDetail(null)} onChat={openChat} onCart={addCart} inCart={cart.includes(detail?.id)}/>}
       {showPub&&meSync&&<PublishModal currentUser={meSync} onClose={()=>setShowPub(false)} onPublish={handlePublish}/>}
       {showCart&&<CartPanel cart={cart} products={products} onClose={()=>setShowCart(false)} onRemove={removeCart} onCheckout={(items,total)=>{setShowCart(false);setPayData({items,total});}}/>}
@@ -467,13 +659,13 @@ function SchoolBag(){
 
   // HOME
   return(<div style={{background:C.navy,minHeight:"100vh"}}><Toast msg={toast}/>
-    <Nav me={meSync} cart={cart} onHome={()=>setView("landing")} onProfile={()=>setView("myprofile")} onCart={()=>setShowCart(true)} onChat={()=>setChatOpen(!chatOpen)} onPub={()=>{if(!meSync){setAuthTab("register");setShowAuth(true);return;}setShowPub(true);}} onAuth={()=>{setAuthTab("login");setShowAuth(true);}} onAdmin={()=>setShowAdmin(true)} onWallet={()=>setShowWallet(true)} chatOpen={chatOpen}/>
+    <Nav me={meSync} cart={cart} onHome={()=>setView("landing")} onProfile={()=>setView("myprofile")} onCart={()=>setShowCart(true)} onChat={()=>setChatOpen(!chatOpen)} onPub={()=>{if(!meSync){openAuth("register");return;}setShowPub(true);}} onAuth={()=>openAuth("login")} onAdmin={()=>setShowAdmin(true)} onWallet={()=>setShowWallet(true)} chatOpen={chatOpen}/>
 
     {/* SEARCH */}
-    <div style={{background:`linear-gradient(180deg,${C.navy2},${C.navy})`,padding:"24px 24px 20px",borderBottom:"1px solid rgba(255,255,255,0.07)"}}>
-      <h2 style={{color:"white",fontSize:18,fontWeight:900,margin:"0 0 14px",textAlign:"center"}}>Encuentra artículos en tu <span style={{color:C.yellow}}>comunidad</span></h2>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,maxWidth:860,margin:"0 auto"}}>
-        <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="🔍 Buscar artículo..." style={{...inp,background:"rgba(255,255,255,0.08)"}}/>
+    <div style={{background:`linear-gradient(180deg,${C.navy2},${C.navy})`,padding:"22px 22px 18px",borderBottom:"1px solid rgba(255,255,255,0.07)"}}>
+      <h2 style={{color:"white",fontSize:17,fontWeight:900,margin:"0 0 13px",textAlign:"center"}}>Encuentra artículos en tu <span style={{color:C.yellow}}>comunidad</span></h2>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:9,maxWidth:840,margin:"0 auto"}}>
+        <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="🔍 Buscar..." style={{...inp,background:"rgba(255,255,255,0.08)"}}/>
         <select value={searchCol} onChange={e=>{setSearchCol(e.target.value);setSearchClub("");}} style={{...inp,cursor:"pointer"}}>
           <option value="" style={{background:C.navy2}}>🏫 Colegio</option>
           {COLEGIOS.map(c=><option key={c} style={{background:C.navy2}}>{c}</option>)}
@@ -486,38 +678,38 @@ function SchoolBag(){
     </div>
 
     {/* STATS */}
-    <div style={{background:C.navy2,padding:"12px 24px",display:"flex",justifyContent:"center",gap:28,borderBottom:"1px solid rgba(255,255,255,0.07)",flexWrap:"wrap"}}>
-      {[[C.yellow,"📦",visibleProducts.filter(p=>p.status==="approved").length,"artículos"],[C.blue,"👥",users.filter(u=>u.role!=="admin").length,"vendedores"],[C.green,"🎁",products.filter(p=>p.tipo==="Donación"&&p.status==="approved").length,"donaciones"],[C.yellow,"⭐",reviews.length,"calificaciones"]].map(([col,ic,v,lb])=>(<div key={lb} style={{textAlign:"center"}}><div style={{fontSize:14,fontWeight:900,color:col}}>{ic} {v}</div><div style={{fontSize:11,color:"rgba(255,255,255,0.35)"}}>{lb}</div></div>))}
+    <div style={{background:C.navy2,padding:"11px 22px",display:"flex",justifyContent:"center",gap:26,borderBottom:"1px solid rgba(255,255,255,0.07)",flexWrap:"wrap"}}>
+      {[[C.yellow,"📦",visibleProducts.filter(p=>p.status==="approved").length,"artículos"],[C.blue,"👥",users.filter(u=>u.role!=="admin").length,"vendedores"],[C.green,"🎁",products.filter(p=>p.tipo==="Donación"&&p.status==="approved").length,"donaciones"],[C.yellow,"⭐",reviews.length,"calificaciones"]].map(([col,ic,v,lb])=>(<div key={lb} style={{textAlign:"center"}}><div style={{fontSize:13,fontWeight:900,color:col}}>{ic} {v}</div><div style={{fontSize:10,color:"rgba(255,255,255,0.32)"}}>{lb}</div></div>))}
     </div>
 
     {/* FILTERS */}
-    <div style={{padding:"14px 22px 8px",display:"flex",gap:8,flexWrap:"wrap",alignItems:"center"}}>
-      <button onClick={()=>setFCat("all")} style={{padding:"7px 16px",border:`2px solid ${filterCat==="all"?C.red:"rgba(255,255,255,0.12)"}`,background:filterCat==="all"?C.red:"transparent",color:"white",borderRadius:50,cursor:"pointer",fontSize:12,fontWeight:800,fontFamily:"inherit"}}>Todos</button>
-      {CATS.map(c=>(<button key={c.id} onClick={()=>setFCat(filterCat===c.id?"all":c.id)} style={{display:"flex",alignItems:"center",gap:5,padding:"7px 14px",border:`2px solid ${filterCat===c.id?c.color:"rgba(255,255,255,0.12)"}`,background:filterCat===c.id?`${c.color}22`:"transparent",color:filterCat===c.id?c.color:"rgba(255,255,255,0.7)",borderRadius:50,cursor:"pointer",fontWeight:filterCat===c.id?800:500,fontSize:12,fontFamily:"inherit"}}><span style={{fontSize:13}}>{c.emoji}</span>{c.label}</button>))}
+    <div style={{padding:"12px 20px 7px",display:"flex",gap:7,flexWrap:"wrap",alignItems:"center"}}>
+      <button onClick={()=>setFCat("all")} style={{padding:"6px 14px",border:`2px solid ${filterCat==="all"?C.red:"rgba(255,255,255,0.12)"}`,background:filterCat==="all"?C.red:"transparent",color:"white",borderRadius:50,cursor:"pointer",fontSize:11,fontWeight:800,fontFamily:"inherit"}}>Todos</button>
+      {CATS.map(c=>(<button key={c.id} onClick={()=>setFCat(filterCat===c.id?"all":c.id)} style={{display:"flex",alignItems:"center",gap:5,padding:"6px 12px",border:`2px solid ${filterCat===c.id?c.color:"rgba(255,255,255,0.12)"}`,background:filterCat===c.id?`${c.color}22`:"transparent",color:filterCat===c.id?c.color:"rgba(255,255,255,0.65)",borderRadius:50,cursor:"pointer",fontWeight:filterCat===c.id?800:500,fontSize:11,fontFamily:"inherit"}}><span style={{fontSize:12}}>{c.emoji}</span>{c.label}</button>))}
       <div style={{marginLeft:"auto",display:"flex",gap:6}}>
-        {["all","Venta","Donación"].map(t=>(<button key={t} onClick={()=>setFTipo(t)} style={{padding:"6px 12px",border:`2px solid ${filterTipo===t?C.yellow:"rgba(255,255,255,0.12)"}`,background:filterTipo===t?"rgba(245,197,24,0.15)":"transparent",color:filterTipo===t?C.yellow:"rgba(255,255,255,0.5)",borderRadius:50,cursor:"pointer",fontSize:11,fontWeight:800,fontFamily:"inherit"}}>{t==="all"?"Todo":t==="Venta"?"💰":"🎁"}</button>))}
+        {["all","Venta","Donación"].map(t=>(<button key={t} onClick={()=>setFTipo(t)} style={{padding:"5px 11px",border:`2px solid ${filterTipo===t?C.yellow:"rgba(255,255,255,0.12)"}`,background:filterTipo===t?"rgba(245,197,24,0.15)":"transparent",color:filterTipo===t?C.yellow:"rgba(255,255,255,0.45)",borderRadius:50,cursor:"pointer",fontSize:11,fontWeight:800,fontFamily:"inherit"}}>{t==="all"?"Todo":t==="Venta"?"💰":"🎁"}</button>))}
       </div>
     </div>
-    <div style={{padding:"4px 22px 10px",fontSize:12,color:"rgba(255,255,255,0.35)",fontWeight:700}}>{filtered.length} artículo{filtered.length!==1?"s":""} encontrado{filtered.length!==1?"s":""}</div>
+    <div style={{padding:"3px 20px 9px",fontSize:11,color:"rgba(255,255,255,0.32)",fontWeight:700}}>{filtered.length} artículo{filtered.length!==1?"s":""} encontrado{filtered.length!==1?"s":""}</div>
 
     {/* GRID */}
-    <div style={{padding:"4px 22px 80px"}}>
+    <div style={{padding:"3px 20px 80px"}}>
       {filtered.length===0?(
-        <div style={{textAlign:"center",padding:"60px 20px",color:"rgba(255,255,255,0.25)"}}>
-          <div style={{fontSize:64,marginBottom:16}}>🎒</div>
-          <div style={{fontSize:20,fontWeight:800,color:"rgba(255,255,255,0.4)",marginBottom:8}}>¡Sé la primera en publicar!</div>
-          <div style={{fontSize:14,color:"rgba(255,255,255,0.25)",marginBottom:24}}>Aún no hay artículos. Publica el primero y empieza la comunidad.</div>
-          {meSync&&<button onClick={()=>setShowPub(true)} style={{...btnP(C.red),fontSize:15,padding:"14px 32px"}}>+ Publicar mi primer artículo</button>}
-          {!meSync&&<button onClick={()=>{setAuthTab("register");setShowAuth(true);}} style={{...btnP(C.yellow),fontSize:15,padding:"14px 32px"}}>Únete y publica →</button>}
+        <div style={{textAlign:"center",padding:"55px 18px",color:"rgba(255,255,255,0.22)"}}>
+          <div style={{fontSize:60,marginBottom:14}}>🎒</div>
+          <div style={{fontSize:19,fontWeight:800,color:"rgba(255,255,255,0.38)",marginBottom:7}}>¡Sé la primera en publicar!</div>
+          <div style={{fontSize:13,color:"rgba(255,255,255,0.22)",marginBottom:22}}>Aún no hay artículos. Publica el primero y empieza la comunidad.</div>
+          {meSync&&<button onClick={()=>setShowPub(true)} style={{...btnP(C.red),fontSize:14,padding:"13px 30px"}}>+ Publicar mi primer artículo</button>}
+          {!meSync&&<button onClick={()=>openAuth("register")} style={{...btnP(C.yellow),fontSize:14,padding:"13px 30px"}}>Únete y publica →</button>}
         </div>
       ):(
-        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(220px,1fr))",gap:18}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(210px,1fr))",gap:16}}>
           {filtered.map(p=><PCard key={p.id} product={p} users={users} reviews={reviews} onView={setDetail} onCart={addCart} inCart={cart.includes(p.id)} featured={featuredSellers.has(p.vendedorId)}/>)}
         </div>
       )}
     </div>
 
-    {meSync&&<button onClick={()=>setShowPub(true)} style={{position:"fixed",bottom:28,right:28,background:C.red,color:"white",border:"none",borderRadius:50,padding:"14px 24px",fontWeight:900,cursor:"pointer",fontSize:15,boxShadow:"0 8px 28px rgba(224,58,47,.55)",zIndex:99,fontFamily:"inherit"}}>+ Publicar</button>}
+    {meSync&&<button onClick={()=>setShowPub(true)} style={{position:"fixed",bottom:26,right:26,background:C.red,color:"white",border:"none",borderRadius:50,padding:"13px 22px",fontWeight:900,cursor:"pointer",fontSize:14,boxShadow:"0 8px 28px rgba(224,58,47,.55)",zIndex:99,fontFamily:"inherit"}}>+ Publicar</button>}
 
     {showAuth&&<AuthModal onClose={()=>setShowAuth(false)} onLogin={handleLogin} onRegister={handleRegister} initTab={authTab}/>}
     {showPub&&meSync&&<PublishModal currentUser={meSync} onClose={()=>setShowPub(false)} onPublish={handlePublish}/>}
@@ -527,7 +719,7 @@ function SchoolBag(){
     {reviewData&&<ReviewModal order={reviewData.order} vendedor={reviewData.vendedor} onClose={()=>setReviewData(null)} onSubmit={handleReview}/>}
     {showWallet&&meSync&&<WalletPanel user={meSync} onClose={()=>setShowWallet(false)}/>}
     {chatOpen&&meSync&&<ChatPanel currentUser={meSync} users={users} chats={chats} setChats={setChats} onClose={()=>setChatOpen(false)}/>}
-    {showEditProfile&&meSync&&<EditProfileModal user={meSync} onClose={()=>setShowEditProfile(false)} onSave={handleSaveProfile}/>}
+    {showEditProfile&&meSync&&<EditProfileModal user={meSync} onClose={()=>setShowEditProfile(false)} onSave={handleSaveProfile} onLogout={handleLogout} onDelete={handleDeleteAccount}/>}
   </div>);
 }
 
